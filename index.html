@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LES MIRABELLES - Stock</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #5A52E0;
+            --secondary: #FF6B6B;
+            --success: #00D68F;
+            --warning: #FFAA00;
+            --danger: #FF3D71;
+            --info: #0095FF;
+            --gold: #FFD700;
+            --dark: #0A0E17;
+            --dark-light: #151924;
+            --dark-card: #1A1F2E;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --nav-height: 72px;
+            --header-height: 64px;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', 'Cairo', sans-serif;
+            background: var(--dark);
+            color: #ffffff;
+        }
+        body[dir="rtl"] { font-family: 'Cairo', 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; }
+
+        /* ===== LOGIN ===== */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 24px;
+            background: radial-gradient(circle at top, var(--dark-light) 0%, var(--dark) 100%);
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            background: var(--dark-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 48px 32px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+        .login-logo {
+            font-size: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .login-box h2 { font-size: 36px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .login-box .sub { opacity: 0.6; font-size: 15px; margin-bottom: 32px; }
+        .login-box .form-control {
+            background: var(--glass);
+            border: 2px solid var(--glass-border);
+            color: #fff;
+            border-radius: 16px;
+            padding: 18px 20px;
+            width: 100%;
+            margin-bottom: 16px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        .login-box .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+            background: rgba(108, 99, 255, 0.05);
+        }
+        .login-box .form-control::placeholder { color: rgba(255, 255, 255, 0.3); }
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            padding: 18px;
+            border-radius: 16px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-gradient:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(108, 99, 255, 0.4); }
+        .btn-gradient:active { transform: translateY(0); }
+        #loginError { color: var(--danger); margin-top: 16px; font-size: 14px; font-weight: 600; }
+
+        /* ===== MAIN APP ===== */
+        #appMain {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            background: var(--dark);
+            overflow: hidden;
+        }
+        #appMain.active { display: flex; }
+
+        /* ===== HEADER ===== */
+        .app-header {
+            height: var(--header-height);
+            padding: 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 14, 23, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            flex-shrink: 0;
+            z-index: 50;
+            position: relative;
+        }
+        .app-header .brand { display: flex; align-items: center; gap: 10px; }
+        .app-header .brand i {
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .app-header .brand span { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+        .app-header .brand span.gold { background: linear-gradient(135deg, var(--gold), #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+        .header-actions .user-badge {
+            background: var(--glass);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--glass-border);
+            font-weight: 600;
+        }
+        .header-actions .user-badge i { color: var(--primary); font-size: 14px; }
+        .icon-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .icon-btn:hover { background: rgba(255, 255, 255, 0.08); transform: scale(1.05); }
+        .icon-btn:active { transform: scale(0.95); }
+        .icon-btn.danger { color: var(--danger); }
+        .lang-toggle {
+            display: flex;
+            gap: 3px;
+            background: var(--glass);
+            padding: 3px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+        .lang-toggle button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+        }
+        .lang-toggle button.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3); }
+
+        /* ===== DASHBOARD SCROLL ===== */
+        .dashboard-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 12px calc(var(--nav-height) + 16px) 12px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ===== STATS ===== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .stat-card {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 14px 8px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--primary); }
+        .stat-card:hover::before { opacity: 1; }
+        .stat-card:active { transform: translateY(0); }
+        .stat-card i {
+            font-size: 20px;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-card .number { font-size: 20px; font-weight: 800; margin-bottom: 2px; letter-spacing: -0.5px; }
+        .stat-card .label { font-size: 10px; opacity: 0.6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .stat-card.alert { background: linear-gradient(135deg, rgba(255, 61, 113, 0.1), rgba(255, 170, 0, 0.1)); border-color: var(--danger); }
+        .stat-card.alert i { background: linear-gradient(135deg, var(--danger), var(--warning)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* ===== ALERTS ===== */
+        .alerts-section {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 12px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .alerts-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(--warning); }
+        .alert-item {
+            background: rgba(255, 170, 0, 0.05);
+            border: 1px solid rgba(255, 170, 0, 0.2);
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+        .alert-item:hover { background: rgba(255, 170, 0, 0.1); transform: translateX(4px); }
+        .alert-item.danger { background: rgba(255, 61, 113, 0.05); border-color: rgba(255, 61, 113, 0.2); }
+        .alert-item.danger:hover { background: rgba(255, 61, 113, 0.1); }
+        .alert-info { display: flex; align-items: center; gap: 8px; }
+        .alert-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+        .alert-item:not(.danger) .alert-icon { background: rgba(255, 170, 0, 0.2); color: var(--warning); }
+        .alert-item.danger .alert-icon { background: rgba(255, 61, 113, 0.2); color: var(--danger); }
+        .alert-text { font-size: 12px; font-weight: 600; }
+        .alert-badge { background: rgba(255, 255, 255, 0.1); padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+
+        /* ===== PAGE CONTENT ===== */
+        .page-content { display: none; animation: fadeUp 0.3s ease; padding-bottom: 8px; }
+        .page-content.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .page-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: -0.3px; }
+        .page-title i { color: var(--gold); font-size: 20px; }
+        .page-title .subtitle { font-size: 12px; opacity: 0.6; font-weight: 400; }
+        .card-glass {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .card-glass:hover { border-color: rgba(108, 99, 255, 0.3); }
+        .form-control, .form-select {
+            background: var(--glass);
+            border: 2px solid var(--glass-border);
+            color: #fff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 13px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15); background: rgba(108, 99, 255, 0.05); }
+        .form-control::placeholder { color: rgba(255, 255, 255, 0.3); }
+        .form-select option { background: var(--dark-card); color: #fff; }
+        .row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+        .col { flex: 1 0 100%; }
+        .col.half { flex: 1 0 calc(50% - 4px); }
+        .col.third { flex: 1 0 calc(33.33% - 6px); }
+        .btn-block {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .btn-block:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-block:active { transform: translateY(0); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; }
+        .btn-secondary { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: #fff; }
+        .btn-success { background: linear-gradient(135deg, var(--success), #00B882); color: #fff; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), #FFA500); color: #0A0E17; }
+        .btn-crepes { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: #fff; }
+        .btn-pdj { background: linear-gradient(135deg, #4ECDC4, #44B39D); color: #fff; }
+        .btn-bar { background: linear-gradient(135deg, #45B7D1, #96C93D); color: #fff; }
+        .table-responsive { overflow-x: auto; margin: 6px 0; border-radius: 10px; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th { padding: 10px 8px; text-align: center; color: var(--gold); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 2px solid var(--glass-border); background: rgba(255, 255, 255, 0.02); }
+        td { padding: 10px 8px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.03); font-size: 12px; vertical-align: middle; font-weight: 500; }
+        tr:hover { background: rgba(255, 255, 255, 0.02); }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 9px; font-weight: 700; display: inline-block; text-transform: uppercase; letter-spacing: 0.3px; }
+        .badge-success { background: rgba(0, 214, 143, 0.15); color: var(--success); border: 1px solid rgba(0, 214, 143, 0.3); }
+        .badge-warning { background: rgba(255, 170, 0, 0.15); color: var(--warning); border: 1px solid rgba(255, 170, 0, 0.3); }
+        .badge-danger { background: rgba(255, 61, 113, 0.15); color: var(--danger); border: 1px solid rgba(255, 61, 113, 0.3); }
+        .badge-info { background: rgba(0, 149, 255, 0.15); color: var(--info); border: 1px solid rgba(0, 149, 255, 0.3); }
+        .badge-purple { background: rgba(108, 99, 255, 0.15); color: var(--primary); border: 1px solid rgba(108, 99, 255, 0.3); }
+        .badge-crepes { background: rgba(255, 107, 107, 0.2); color: #FF6B6B; border: 1px solid rgba(255, 107, 107, 0.3); }
+        .badge-pdj { background: rgba(78, 205, 196, 0.2); color: #4ECDC4; border: 1px solid rgba(78, 205, 196, 0.3); }
+        .badge-bar { background: rgba(69, 183, 209, 0.2); color: #45B7D1; border: 1px solid rgba(69, 183, 209, 0.3); }
+        .stock-indicator { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
+        .stock-ok { background: var(--success); }
+        .stock-low { background: var(--warning); }
+        .stock-out { background: var(--danger); animation: blink 1s infinite; }
+        .action-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            margin: 1px;
+        }
+        .action-btn:hover { transform: scale(1.1); background: rgba(255, 255, 255, 0.1); }
+        .action-btn.danger { color: var(--danger); }
+        .action-btn.info { color: var(--info); }
+        .action-btn:active { transform: scale(0.95); }
+        .action-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(10, 14, 23, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            z-index: 100;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            display: flex;
+            align-items: center;
+        }
+        .bottom-nav-wrapper::-webkit-scrollbar { display: none; }
+        .bottom-nav {
+            display: inline-flex;
+            gap: 2px;
+            padding: 0 8px;
+            min-width: 100%;
+            justify-content: space-around;
+            align-items: center;
+            height: 100%;
+        }
+        .nav-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 9px;
+            cursor: pointer;
+            padding: 4px 10px;
+            transition: all 0.2s ease;
+            position: relative;
+            min-width: 50px;
+            font-weight: 600;
+            border-radius: 10px;
+            flex-shrink: 0;
+            height: 100%;
+        }
+        .nav-item i {
+            font-size: 22px;
+            transition: all 0.2s ease;
+        }
+        .nav-item span {
+            font-size: 9px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            opacity: 0.8;
+        }
+        .nav-item.active {
+            color: var(--primary);
+        }
+        .nav-item.active i {
+            transform: translateY(-2px);
+            color: var(--primary);
+        }
+        .nav-item.active span {
+            color: var(--primary);
+            opacity: 1;
+        }
+        .nav-item:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .nav-item .nav-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--danger);
+            color: #fff;
+            font-size: 8px;
+            padding: 2px 5px;
+            border-radius: 20px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(255, 61, 113, 0.4);
+            animation: pulse 2s infinite;
+            min-width: 16px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            animation: fadeIn 0.3s ease;
+            padding: 16px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: var(--dark-card);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            padding: 20px;
+            animation: slideUp 0.4s ease;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-handle { width: 36px; height: 3px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 0 auto 16px auto; }
+        .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.3px; }
+        .modal-title i { color: var(--gold); font-size: 20px; }
+        .modal-close { margin-left: auto; background: var(--glass); border: 1px solid var(--glass-border); color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .modal-close:hover { background: var(--danger); transform: rotate(90deg); }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; }
+        .detail-row .label { opacity: 0.6; font-weight: 500; }
+        .detail-row .value { font-weight: 700; text-align: right; }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: calc(var(--nav-height) + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 31, 46, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 12px 24px;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 300;
+            animation: toastAnim 0.4s ease;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .toast.success { border-left: 4px solid var(--primary); }
+        .toast.error { border-left: 4px solid var(--danger); }
+        @keyframes toastAnim { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+        /* ===== CHIPS ===== */
+        .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px 0; }
+        .chip {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .chip:hover { background: rgba(255, 255, 255, 0.08); transform: scale(1.05); }
+        .chip.active { background: rgba(108, 99, 255, 0.2); border-color: var(--primary); color: var(--primary); }
+        .chip .remove { color: var(--danger); font-size: 12px; margin-left: 4px; cursor: pointer; transition: all 0.3s; }
+        .chip .remove:hover { transform: scale(1.3); }
+        .add-chip-input { display: flex; gap: 6px; margin-top: 6px; }
+        .add-chip-input input { flex: 1; background: var(--glass); border: 2px solid var(--glass-border); color: #fff; border-radius: 10px; padding: 10px 14px; font-size: 12px; font-weight: 500; }
+        .add-chip-input input:focus { border-color: var(--primary); outline: none; }
+        .add-chip-input button { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: #fff; padding: 10px 16px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.3s; }
+        .add-chip-input button:hover { transform: scale(1.05); }
+        .add-chip-input button:active { transform: scale(0.95); }
+
+        /* ===== HIDDEN ===== */
+        .hidden { display: none !important; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .dashboard-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .stat-card { padding: 10px 6px; }
+            .stat-card .number { font-size: 18px; }
+            .stat-card i { font-size: 18px; }
+            .app-header .brand span { font-size: 15px; }
+            .nav-item i { font-size: 20px; }
+            .nav-item span { font-size: 8px; }
+            .nav-item { min-width: 44px; padding: 2px 6px; }
+            .modal-content { padding: 16px; }
+            .app-header { padding: 0 12px; }
+            .header-actions .user-badge { font-size: 10px; padding: 4px 10px; }
+            .user-badge span { display: none; }
+            .bottom-nav-wrapper { height: 64px; }
+            :root { --nav-height: 64px; --header-height: 56px; }
+        }
+        @media (min-width: 600px) {
+            .dashboard-grid { grid-template-columns: repeat(4, 1fr); }
+            .col.half { flex: 1 0 calc(50% - 4px); }
+        }
+        @media (min-width: 900px) {
+            .dashboard-grid { grid-template-columns: repeat(6, 1fr); }
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            body * { visibility: hidden; }
+            #printContent, #printContent * { visibility: visible; }
+            #printContent {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 210mm;
+                padding: 20mm;
+                background: #fff;
+                color: #000;
+                font-family: 'Inter', 'Cairo', sans-serif;
+            }
+            #printContent table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 10px;
+            }
+            #printContent th {
+                background: #f0f0f0;
+                color: #000;
+                border: 1px solid #ccc;
+                padding: 6px;
+                text-align: center;
+                font-weight: 700;
+            }
+            #printContent td {
+                border: 1px solid #ccc;
+                padding: 4px 6px;
+                text-align: center;
+            }
+            #printContent .print-title {
+                font-size: 20px;
+                font-weight: 800;
+                text-align: center;
+                margin-bottom: 8px;
+                color: #000;
+            }
+            #printContent .print-subtitle {
+                text-align: center;
+                font-size: 12px;
+                margin-bottom: 16px;
+                color: #333;
+            }
+            #printContent .badge-print {
+                display: inline-block;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 8px;
+                font-weight: 700;
+            }
+            #printContent .badge-print.entry { background: #d4edda; color: #155724; }
+            #printContent .badge-print.exit { background: #f8d7da; color: #721c24; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginPage" class="login-container">
+    <div class="login-box">
+        <div class="login-logo"><i class="fas fa-utensils"></i></div>
+        <h2>LES <span style="background:linear-gradient(135deg,var(--gold),#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">MIRABELLES</span></h2>
+        <p class="sub">Gestion de stock intelligente</p>
+        <input type="text" id="loginUser" class="form-control" placeholder="Nom d'utilisateur" value="admin">
+        <input type="password" id="loginPass" class="form-control" placeholder="Mot de passe" value="181219">
+        <button id="loginBtn" class="btn-gradient">Connexion</button>
+        <div id="loginError"></div>
+    </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="appMain">
+    <!-- HEADER -->
+    <div class="app-header">
+        <div class="brand">
+            <i class="fas fa-utensils"></i>
+            <span>LES <span class="gold">MIRABELLES</span></span>
+        </div>
+        <div class="header-actions">
+            <div class="lang-toggle">
+                <button class="active" data-lang="fr">FR</button>
+                <button data-lang="ar">ع</button>
+            </div>
+            <div class="user-badge">
+                <i class="fas fa-user-circle"></i>
+                <span id="userDisplay">admin</span>
+                <span id="roleDisplay" class="badge badge-info" style="font-size:8px;">Admin</span>
+            </div>
+            <button id="logoutBtn" class="icon-btn danger"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCROLL -->
+    <div class="dashboard-scroll" id="dashboardScroll">
+        <!-- Dashboard Stats -->
+        <div class="dashboard-grid" id="dashboardStats">
+            <div class="stat-card"><i class="fas fa-arrow-down"></i><div class="number" id="statEntrees">0</div><div class="label">Entrées</div></div>
+            <div class="stat-card"><i class="fas fa-arrow-up"></i><div class="number" id="statSorties">0</div><div class="label">Sorties</div></div>
+            <div class="stat-card"><i class="fas fa-boxes"></i><div class="number" id="statStock">0</div><div class="label">Valeur</div></div>
+            <div class="stat-card alert"><i class="fas fa-exclamation-triangle"></i><div class="number" id="statAlert">0</div><div class="label">Alertes</div></div>
+            <div class="stat-card"><i class="fas fa-truck"></i><div class="number" id="statFournisseurs">0</div><div class="label">Fournisseurs</div></div>
+            <div class="stat-card"><i class="fas fa-users"></i><div class="number" id="statEmployes">0</div><div class="label">Employés</div></div>
+        </div>
+
+        <!-- ===== ALERTS SECTION ===== -->
+        <div class="alerts-section" id="alertsSection">
+            <div class="alerts-title">
+                <i class="fas fa-bell"></i>
+                <span>Alertes de stock</span>
+            </div>
+            <div id="alertsList"></div>
+        </div>
+
+        <!-- ===== PAGE: DASHBOARD ===== -->
+        <div id="pageDashboard" class="page-content active">
+            <div class="page-title"><i class="fas fa-chart-line"></i> Tableau de bord</div>
+            <div class="card-glass">
+                <p style="font-size:13px;font-weight:600;margin-bottom:10px;"><i class="fas fa-box" style="color:var(--primary);"></i> Résumé du stock</p>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr><th>Produit</th><th>Section</th><th>Catégorie</th><th>Stock</th><th>Min</th><th>Statut</th></tr>
+                        </thead>
+                        <tbody id="tbodyStockSummary"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: PRODUITS ===== -->
+        <div id="pageProduits" class="page-content">
+            <div class="page-title"><i class="fas fa-box"></i> Produits <span class="subtitle">Gestion complète</span></div>
+            <div class="card-glass">
+                <div class="row">
+                    <div class="col third">
+                        <button id="openProduitModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+                    </div>
+                    <div class="col third">
+                        <select id="filterSection" class="form-select" style="margin-bottom:0;">
+                            <option value="all">Toutes sections</option>
+                            <option value="CREPES">🥞 Crêpes</option>
+                            <option value="PDJ">🍳 Petit Déjeuner</option>
+                            <option value="BAR">🍹 Bar</option>
+                        </select>
+                    </div>
+                    <div class="col third">
+                        <select id="filterCategory" class="form-select" style="margin-bottom:0;">
+                            <option value="all">Toutes catégories</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card-glass">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Nom</th><th>Section</th><th>Catégorie</th><th>Unité</th><th>Stock</th><th>Actions</th></tr></thead>
+                        <tbody id="tbodyProduits"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: ENTREES ===== -->
+        <div id="pageEntrees" class="page-content">
+            <div class="page-title"><i class="fas fa-arrow-down"></i> Entrées</div>
+            <div class="card-glass">
+                <button id="openEntreeModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Nouvelle entrée</button>
+            </div>
+            <div class="card-glass">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Produit</th><th>Section</th><th>Qte</th><th>Date</th><th>Actions</th></tr></thead>
+                        <tbody id="tbodyEntrees"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: SORTIES ===== -->
+        <div id="pageSorties" class="page-content">
+            <div class="page-title"><i class="fas fa-arrow-up"></i> Sorties</div>
+            <div class="card-glass">
+                <button id="openSortieModal" class="btn-block btn-secondary"><i class="fas fa-plus"></i> Nouvelle sortie</button>
+            </div>
+            <div class="card-glass">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Produit</th><th>Section</th><th>Qte</th><th>Responsable</th><th>Actions</th></tr></thead>
+                        <tbody id="tbodySorties"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: CONFIG ===== -->
+        <div id="pageConfig" class="page-content">
+            <div class="page-title"><i class="fas fa-cog"></i> Configuration</div>
+            <div class="card-glass">
+                <p style="opacity:0.6;font-size:12px;margin-bottom:10px;">🔒 Accès sécurisé</p>
+                <button id="configUnlockBtn" class="btn-block btn-primary"><i class="fas fa-unlock"></i> Déverrouiller</button>
+                <div id="configPanel" class="hidden" style="margin-top:12px;">
+                    <p style="font-size:13px;font-weight:700;margin-bottom:8px;">📦 Unités</p>
+                    <div class="chip-group" id="unitsContainer"></div>
+                    <div class="add-chip-input">
+                        <input id="newUnitInput" placeholder="Nouvelle unité">
+                        <button onclick="addUnit()">+</button>
+                    </div>
+                    <hr style="border-color:rgba(255,255,255,0.05);margin:14px 0;">
+                    <p style="font-size:13px;font-weight:700;margin-bottom:8px;">👥 Catégories Employés</p>
+                    <div class="chip-group" id="categoriesContainer"></div>
+                    <div class="add-chip-input">
+                        <input id="newCategoryInput" placeholder="Nouvelle catégorie">
+                        <button onclick="addCategory()">+</button>
+                    </div>
+                    <hr style="border-color:rgba(255,255,255,0.05);margin:14px 0;">
+                    <button id="resetProductsBtn" class="btn-block btn-gold"><i class="fas fa-undo"></i> Réinitialiser les produits</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: EMPLOYES ===== -->
+        <div id="pageEmployes" class="page-content">
+            <div class="page-title"><i class="fas fa-user-tie"></i> Employés</div>
+            <div class="card-glass">
+                <button id="openEmployeModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter un employé</button>
+            </div>
+            <div class="card-glass">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Nom</th><th>Poste</th><th>Catégorie</th><th>Actions</th></tr></thead>
+                        <tbody id="tbodyEmployes"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: FOURNISSEURS ===== -->
+        <div id="pageFournisseurs" class="page-content">
+            <div class="page-title"><i class="fas fa-truck"></i> Fournisseurs</div>
+            <div class="card-glass">
+                <button id="openFournisseurModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter un fournisseur</button>
+            </div>
+            <div class="card-glass">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Nom</th><th>Tél</th><th>Type</th><th>Actions</th></tr></thead>
+                        <tbody id="tbodyFournisseurs"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: USERS ===== -->
+        <div id="pageUsers" class="page-content">
+            <div class="page-title"><i class="fas fa-users-cog"></i> Utilisateurs</div>
+            <div class="card-glass">
+                <button id="openUserModal" class="btn-block btn-primary"><i class="fas fa-user-plus"></i> Ajouter un utilisateur</button>
+            </div>
+            <div class="card-glass">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Utilisateur</th><th>Rôle</th><th>Actions</th></tr></thead>
+                        <tbody id="tbodyUsers"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-glass">
+                <p style="font-size:13px;font-weight:700;margin-bottom:10px;">🔑 Changer mot de passe</p>
+                <input class="form-control" id="changePassOld" type="password" placeholder="Ancien mot de passe">
+                <input class="form-control" id="changePassNew" type="password" placeholder="Nouveau mot de passe">
+                <button id="changePassBtn" class="btn-block btn-secondary">Changer</button>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: ARCHIVE ===== -->
+        <div id="pageArchive" class="page-content">
+            <div class="page-title"><i class="fas fa-archive"></i> Archive</div>
+            <div class="card-glass">
+                <div class="row">
+                    <div class="col half">
+                        <input class="form-control" id="archiveDate" type="date">
+                    </div>
+                    <div class="col half">
+                        <input class="form-control" id="archiveDateEnd" type="date" placeholder="Date fin">
+                    </div>
+                </div>
+                <button id="archiveSearchBtn" class="btn-block btn-primary" style="margin-bottom:8px;"><i class="fas fa-search"></i> Rechercher</button>
+                <button id="archivePrintBtn" class="btn-block btn-gold"><i class="fas fa-file-pdf"></i> 📄 Extraire HTML (A4)</button>
+                <div id="archiveResult" style="margin-top:12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <div class="bottom-nav-wrapper" id="bottomNavWrapper">
+        <div class="bottom-nav" id="bottomNav">
+            <button class="nav-item active" data-page="pageDashboard">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </button>
+            <button class="nav-item" data-page="pageProduits">
+                <i class="fas fa-box"></i>
+                <span>Produits</span>
+            </button>
+            <button class="nav-item" data-page="pageEntrees">
+                <i class="fas fa-arrow-down"></i>
+                <span>Entrées</span>
+            </button>
+            <button class="nav-item" data-page="pageSorties">
+                <i class="fas fa-arrow-up"></i>
+                <span>Sorties</span>
+            </button>
+            <button class="nav-item" data-page="pageConfig">
+                <i class="fas fa-cog"></i>
+                <span>Config</span>
+            </button>
+            <button class="nav-item" data-page="pageEmployes">
+                <i class="fas fa-user-tie"></i>
+                <span>Employés</span>
+            </button>
+            <button class="nav-item" data-page="pageFournisseurs">
+                <i class="fas fa-truck"></i>
+                <span>Fournisseurs</span>
+            </button>
+            <button class="nav-item" data-page="pageUsers">
+                <i class="fas fa-users-cog"></i>
+                <span>Users</span>
+            </button>
+            <button class="nav-item" data-page="pageArchive">
+                <i class="fas fa-archive"></i>
+                <span>Archive</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODALS ===== -->
+<!-- Modal Produit -->
+<div id="modalProduit" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title">
+            <i class="fas fa-plus-circle"></i> Nouveau produit
+            <button class="modal-close" onclick="closeModal('modalProduit')">✕</button>
+        </div>
+        <input class="form-control" id="pNom" placeholder="Nom du produit *">
+        <select class="form-select" id="pSection">
+            <option value="CREPES">🥞 Crêpes</option>
+            <option value="PDJ">🍳 Petit Déjeuner</option>
+            <option value="BAR">🍹 Bar</option>
+        </select>
+        <input class="form-control" id="pCategorie" placeholder="Catégorie">
+        <div class="row">
+            <div class="col half">
+                <select class="form-select" id="pUnite"></select>
+            </div>
+            <div class="col half">
+                <input class="form-control" id="pMinStock" type="number" placeholder="Stock min">
+            </div>
+        </div>
+        <button id="addProduitBtn" class="btn-block btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+    </div>
+</div>
+
+<!-- Modal Entrée -->
+<div id="modalEntree" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title">
+            <i class="fas fa-plus-circle"></i> Nouvelle entrée
+            <button class="modal-close" onclick="closeModal('modalEntree')">✕</button>
+        </div>
+        <select class="form-select" id="eProduit"><option value="">Sélectionner un produit *</option></select>
+        <input class="form-control" id="eQte" type="number" placeholder="Quantité *">
+        <input class="form-control" id="ePrixUnitaire" type="number" placeholder="Prix unitaire">
+        <input class="form-control" id="eFournisseur" placeholder="Fournisseur">
+        <input class="form-control" id="ePersonne" placeholder="Responsable">
+        <input class="form-control" id="eNotes" placeholder="Notes">
+        <button id="addEntreeBtn" class="btn-block btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+    </div>
+</div>
+
+<!-- Modal Sortie -->
+<div id="modalSortie" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title">
+            <i class="fas fa-minus-circle"></i> Nouvelle sortie
+            <button class="modal-close" onclick="closeModal('modalSortie')">✕</button>
+        </div>
+        <select class="form-select" id="sProduit"><option value="">Sélectionner un produit *</option></select>
+        <input class="form-control" id="sQte" type="number" placeholder="Quantité *">
+        <select class="form-select" id="sSection">
+            <option value="Cuisine">Cuisine</option>
+            <option value="Bar">Bar</option>
+            <option value="Service">Service</option>
+            <option value="Autre">Autre</option>
+        </select>
+        <input class="form-control" id="sPersonne" placeholder="Responsable">
+        <input class="form-control" id="sNotes" placeholder="Notes">
+        <button id="addSortieBtn" class="btn-block btn-secondary"><i class="fas fa-save"></i> Enregistrer</button>
+    </div>
+</div>
+
+<!-- Modal Employé -->
+<div id="modalEmploye" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title">
+            <i class="fas fa-user-plus"></i> Ajouter un employé
+            <button class="modal-close" onclick="closeModal('modalEmploye')">✕</button>
+        </div>
+        <div class="row">
+            <div class="col half"><input class="form-control" id="empNom" placeholder="Nom *"></div>
+            <div class="col half"><input class="form-control" id="empPrenom" placeholder="Prénom"></div>
+        </div>
+        <input class="form-control" id="empCin" placeholder="CIN">
+        <input class="form-control" id="empTel" placeholder="Téléphone">
+        <input class="form-control" id="empWhatsapp" placeholder="WhatsApp">
+        <input class="form-control" id="empPoste" placeholder="Poste">
+        <select class="form-select" id="empCategorie"><option value="">Sélectionner une catégorie</option></select>
+        <input class="form-control" id="empDate" type="date">
+        <input class="form-control" id="empSalaire" type="number" placeholder="Salaire">
+        <button id="addEmployeBtn" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+    </div>
+</div>
+
+<!-- Modal Fournisseur -->
+<div id="modalFournisseur" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title">
+            <i class="fas fa-truck"></i> Ajouter un fournisseur
+            <button class="modal-close" onclick="closeModal('modalFournisseur')">✕</button>
+        </div>
+        <input class="form-control" id="fNom" placeholder="Nom *">
+        <input class="form-control" id="fTel" placeholder="Téléphone">
+        <input class="form-control" id="fWhatsapp" placeholder="WhatsApp">
+        <input class="form-control" id="fAdresse" placeholder="Adresse">
+        <input class="form-control" id="fType" placeholder="Type de biens">
+        <button id="addFournisseurBtn" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+    </div>
+</div>
+
+<!-- Modal Utilisateur -->
+<div id="modalUser" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title">
+            <i class="fas fa-user-plus"></i> Ajouter un utilisateur
+            <button class="modal-close" onclick="closeModal('modalUser')">✕</button>
+        </div>
+        <input class="form-control" id="newUsername" placeholder="Nom d'utilisateur *">
+        <input class="form-control" id="newPassword" type="password" placeholder="Mot de passe *">
+        <select class="form-select" id="newRole">
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Employee">Employee</option>
+            <option value="Viewer">Viewer</option>
+        </select>
+        <button id="addUserBtn" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
+    </div>
+</div>
+
+<!-- Modal Détails -->
+<div id="modalDetails" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title">
+            <i class="fas fa-info-circle"></i> <span id="detailTitle">Détails</span>
+            <button class="modal-close" onclick="closeModal('modalDetails')">✕</button>
+        </div>
+        <div id="detailContent"></div>
+    </div>
+</div>
+
+<!-- ===== PRINT CONTENT HIDDEN ===== -->
+<div id="printContent" style="display:none;"></div>
+
+<script type="importmap">
+{
+    "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"
+    }
+}
+</script>
+<script type="module">
+    import { initializeApp } from "firebase/app";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, getDocs, where, updateDoc } from "firebase/firestore";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyC8FXnL_Xo",
+        authDomain: "manager-stocck.firebaseapp.com",
+        projectId: "manager-stocck",
+        storageBucket: "manager-stocck.firebasestorage.app",
+        messagingSenderId: "404969875032",
+        appId: "1:404969875032:web:47cb8e9f5a8d3d66d60c2d",
+        measurementId: "G-JCNN6WFZZP"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const entreesRef = collection(db, "entrees");
+    const sortiesRef = collection(db, "sorties");
+    const produitsRef = collection(db, "produits");
+    const employesRef = collection(db, "employes");
+    const fournisseursRef = collection(db, "fournisseurs");
+    const usersRef = collection(db, "users");
+    const unitsRef = collection(db, "units");
+    const categoriesRef = collection(db, "categories");
+
+    // ===== DEFAULT PRODUCTS DATA =====
+    const defaultProducts = {
+        "CREPES": {
+            "LEGUMES ET FRUITS": ["FRAMBOISE", "MYRTILLE", "MURE", "BANANE", "POMME", "TOMATE CERISE", "CONCOMBRE", "LAITUE", "MAIS", "KIWI", "ANANAS", "AVOCAT", "FRAISE", "MANGUE", "CHAMPIGNON"],
+            "BISCUIT & CONFISERIES": ["MARIA", "CIGARE", "OREO", "LOTUS", "M&M'S", "KITKAT", "KINDER", "MARSHMELLO"],
+            "CREMES": ["NUTELLA", "CREME LOTUS", "CREME PISTACHE", "CREME KUNAFA PISTACHE", "CREME GIANDUJA", "CREME CHANTILLE", "CREME FRAICHE", "CREME CHOCOLAT BLANC"],
+            "FRUITS SEC": ["PISTACHE ENTIER", "AMANDE EFFILE"],
+            "EPICERIE": ["FARINE PATISSERIE", "BEURRE SPECIAL", "HUILE DE TABLE", "VANILLE POUDRE", "LEVURE CHIMIQUE", "EAU DE FLEUR D'ORANGE", "SWEETIES", "FARINE", "LAIT", "ŒUF", "SUCRE GLACE", "SIROP", "MIEL", "CONFITURE", "AMLOU", "KUNAFA", "MARSHMELLO", "VANILLE SACHET", "LOTUS BISCUIT", "SUCRE"],
+            "VIANDES & FROMAGE": ["POULET", "VIANDE HACHEE", "CHARCUTERIE", "THON", "CREVETTE", "CALAMAR", "SAUCE FROMAGERE", "MOZARELLE", "FROMAGE ROUGE", "CHEDDAR", "SAUCE TOMATE"],
+            "TOPPING": ["CHOCOLAT", "FRAISE", "VANILLE", "CARAMEL", "VERMISSILLE CHOCOLAT", "VERMISSELES COULEURE", "CHOCOLAT BALLS", "PEPITES CHOCOLAT"],
+            "COLORANTS ET DECO": ["FEUILLES D'OR", "FEUILLES BRONZE", "FEUILLES ARGENTES", "FLEURS COMESTIBLE", "LES ETIGES"],
+            "VIENNOISERIE": ["GATEAU MAROCAIN", "CROISSANT GRAND", "CROISSANT"]
+        },
+        "PDJ": {
+            "LEGUMES ET FRUITS": ["TOMATE", "TOMATE CERISE", "POMME DE TERRE", "BETTRAVE", "LAITUE", "LAITUE LOLO", "CONCOMBRE", "ROQUETTE", "SIBOULETTE", "KIWI", "FRAMBOISE", "MERTYL", "BANANE", "ANANAS", "MANGUE", "CITRON", "CHAMPIGNON", "AVOCAT"],
+            "FRUITS SECS": ["AMANDES EFFILLE", "NOIX", "RAISINS"],
+            "VENOISERIE": ["PAIN COMPLET MINI", "BAGUETTE NORMAL", "SOIREE", "PETIT PAIN", "PAIN BUSSE", "CHNECK", "CROISSANT GRAND", "GATEAU MAROCAIN"],
+            "PRODUITS LAITIERES": ["EDAM", "MOZARELLE", "CHEDDAR", "BEURRE (centrale)", "JBEN", "DANONE TENDRE", "LAIT"],
+            "EPICERIE": ["HUILE D'OLIVE", "HUILE VEGETALE", "AMLOU", "OLIVES NOIRES", "S.BALNCHE SUCREE", "CONFITURE", "MIEL", "NUTELLA", "OEUFS", "TORTILLA", "PAIN DEMI", "POTATO", "GRAINES DE LIN", "GRAINS DE CHIA", "FLOCON D'AVOINE", "LEVURE", "VANILLE (ALSA)", "HARICOT ROUGE", "SUCRE SANIDA", "FROMAGE CHEDDAR", "CHOCOLAT NOIR/blanc", "sweeties", "khli3", "TCHICHA", "CORNFLAKES"],
+            "VIANDES & POISSONS": ["DINDE", "CHARCUTERIE", "SAUMON FUME", "CREVETTES ROSES", "THON"],
+            "EPICES": ["SEL", "POIVRE", "PAPRIKA", "CURCUMA", "CUMIN", "CANELLE", "GINGEMBRE", "THYM"]
+        },
+        "BAR": {
+            "FRUITS": ["ORANGE", "CITRON", "ANANAS", "MANGUE", "KIWI", "FRAISE", "FROMBOISE", "MERTIL", "POMME", "BANANE", "AVOCAT", "GENGEMBRE", "MENTHE", "CHIBA"],
+            "SIROP": ["SIROP CARAMEL", "SIROP NOISETTE", "SIROP CHOCOLAT", "SIROP VANILLE", "SIROP MOJITO", "SIROP CITRON", "SIROP TRIPLE SEC", "SIROP BLEU", "SIROP FRAISE", "SIROP MENTH", "SIROP GRENADINE", "SIROP KIWI", "SIROP ANANAS", "SIROP POMME VERRT", "ICE THE CITRON", "ICE THE PECHE", "ICE THE FRAMBOISE", "BUBBLE BLUEBERRY", "BUBBLE FRAISE", "BUBBLE FRUITS PS", "BUBBLE MANGUE", "BUBBLE CITRON"],
+            "PRODUITS LAITIERES": ["LAIT UHT", "DANONE TENDRE", "NESTLET LAIT", "NESTLET CARAMEL", "HOLALA"],
+            "FRUITS SEC": ["AMANDE", "AMANDE EFILEE", "NOIX", "CAJOU", "NOISETTE", "PISTACHE", "RAISINS", "DATTES"],
+            "EPICERIE": ["SUCRE THE", "SUCRE CAFE", "THE", "VERVIENNE", "3CHUB ATAY", "LIPTON", "MIEL", "CANNEL", "CANNEL POUDRE", "CHOCO NESQUIK", "SANIDA", "LOTUS", "OREO", "KITKAT", "SIGAR", "SWWETISES", "LES ETIGES", "VERVIENNE SACHET", "RED BULL", "MATCHA", "NECTARIE ANANAS", "NECTARIE MANGUE"],
+            "CAFE": ["NESPRESSO", "CAFECITA", "CAFE LAVARINE", "VANILLA CHAI", "SPICED CHAI", "CHOCOLAT DARK", "CHOCO FONDU", "CHOCO BLANC", "MEC3 PISTACHE", "CHOCO", "CARAMEL", "SQUIZE COCO", "SQUIZE ANANAS", "SQUIZE MANGUE", "SQUIZE PASSION", "SQUIZE BLUE BERRY", "SQUIZE FRAISE", "SQUIZE CITRON", "FRAPE CHOCO", "FRAPE CARAMEL", "FRAPE VANILLE", "FRAPE FRAISE"],
+            "EAU ET SODA": ["33CL", "50CL", "75CL", "HAWAI", "POM'S", "COCA", "COCA ZERO", "SPRITE", "OULMES", "ORANGINE", "SPRITE 1L", "SHWEPPS CITRON", "SHWEPPS TONIC"]
+        }
+    };
+
+    let currentUser = { username: "admin", role: "Admin" };
+    let currentLang = "fr";
+    let isConfigUnlocked = false;
+    let allUsers = [];
+    let allProduits = [];
+    let allEntrees = [];
+    let allSorties = [];
+    let unitsList = ['Kg', 'Litre', 'Pièce', 'Pack', 'Carton', 'Boîte', 'Sachet'];
+    let categoriesList = ['Chef', 'Cuisinier', 'Barista', 'Serveur', 'Manager', 'Pâtissier'];
+    let isViewer = false;
+
+    // ===== DOM REFS =====
+    const loginPage = document.getElementById('loginPage');
+    const appMain = document.getElementById('appMain');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginUser = document.getElementById('loginUser');
+    const loginPass = document.getElementById('loginPass');
+    const loginError = document.getElementById('loginError');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // ===== FUNCTIONS =====
+    function toast(msg, type = 'success') {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+        const div = document.createElement('div');
+        div.className = `toast ${type}`;
+        div.textContent = msg;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 2500);
+    }
+
+    function openModal(id) {
+        document.getElementById(id).classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    window.closeModal = function(id) {
+        document.getElementById(id).classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+        m.addEventListener('click', (e) => {
+            if (e.target === m) {
+                m.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    window.showDetails = function(title, data) {
+        document.getElementById('detailTitle').textContent = title;
+        let html = '';
+        for (const [key, value] of Object.entries(data)) {
+            if (value !== undefined && value !== null && value !== '') {
+                html += `<div class="detail-row"><span class="label">${key}</span><span class="value">${value}</span></div>`;
+            }
+        }
+        document.getElementById('detailContent').innerHTML = html;
+        openModal('modalDetails');
+    };
+
+    // ===== CALCULATE STOCK =====
+    function calculateStock() {
+        const stockMap = {};
+        allProduits.forEach(p => {
+            stockMap[p.nom] = {
+                nom: p.nom,
+                categorie: p.categorie,
+                section: p.section,
+                unite: p.unite,
+                stockMin: p.stockMin || 0,
+                entrees: 0,
+                sorties: 0,
+                stockActuel: 0
+            };
+        });
+        allEntrees.forEach(e => {
+            if (stockMap[e.nom]) {
+                stockMap[e.nom].entrees += e.qte || 0;
+            }
+        });
+        allSorties.forEach(s => {
+            if (stockMap[s.nom]) {
+                stockMap[s.nom].sorties += s.qte || 0;
+            }
+        });
+        Object.keys(stockMap).forEach(key => {
+            const s = stockMap[key];
+            s.stockActuel = s.entrees - s.sorties;
+            if (s.stockActuel < 0) s.stockActuel = 0;
+        });
+        return stockMap;
+    }
+
+    // ===== UPDATE ALERTS =====
+    function updateAlerts() {
+        const stockMap = calculateStock();
+        const alertsList = document.getElementById('alertsList');
+        alertsList.innerHTML = '';
+        let alertCount = 0;
+        Object.values(stockMap).forEach(stock => {
+            if (stock.stockActuel <= 0) {
+                alertCount++;
+                const alertItem = document.createElement('div');
+                alertItem.className = 'alert-item danger';
+                alertItem.innerHTML = `<div class="alert-info"><div class="alert-icon"><i class="fas fa-times-circle"></i></div><div class="alert-text">${stock.nom}</div></div><div class="alert-badge">0 ${stock.unite}</div>`;
+                alertsList.appendChild(alertItem);
+            } else if (stock.stockActuel <= stock.stockMin) {
+                alertCount++;
+                const alertItem = document.createElement('div');
+                alertItem.className = 'alert-item';
+                alertItem.innerHTML = `<div class="alert-info"><div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="alert-text">${stock.nom}</div></div><div class="alert-badge">${stock.stockActuel} ${stock.unite}</div>`;
+                alertsList.appendChild(alertItem);
+            }
+        });
+        document.getElementById('statAlert').textContent = alertCount;
+        const configNav = document.querySelector('.nav-item[data-page="pageDashboard"]');
+        const existingBadge = configNav.querySelector('.nav-badge');
+        if (existingBadge) existingBadge.remove();
+        if (alertCount > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'nav-badge';
+            badge.textContent = alertCount;
+            configNav.appendChild(badge);
+        }
+    }
+
+    // ===== UPDATE STOCK SUMMARY =====
+    function updateStockSummary() {
+        const stockMap = calculateStock();
+        const tbody = document.getElementById('tbodyStockSummary');
+        tbody.innerHTML = '';
+        Object.values(stockMap).forEach(stock => {
+            const tr = document.createElement('tr');
+            let statusClass = 'stock-ok';
+            let statusText = 'Normal';
+            let statusBadge = 'badge-success';
+            if (stock.stockActuel <= 0) { statusClass = 'stock-out'; statusText = 'Rupture'; statusBadge = 'badge-danger'; }
+            else if (stock.stockActuel <= stock.stockMin) { statusClass = 'stock-low'; statusText = 'Faible'; statusBadge = 'badge-warning'; }
+            const sectionBadge = stock.section === 'CREPES' ? 'badge-crepes' : stock.section === 'PDJ' ? 'badge-pdj' : 'badge-bar';
+            tr.innerHTML = `
+                <td><span class="stock-indicator ${statusClass}"></span>${stock.nom}</td>
+                <td><span class="badge ${sectionBadge}">${stock.section || '-'}</span></td>
+                <td>${stock.categorie || '-'}</td>
+                <td><strong>${stock.stockActuel}</strong></td>
+                <td>${stock.stockMin}</td>
+                <td><span class="badge ${statusBadge}">${statusText}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // ===== UNITS MANAGEMENT =====
+    function updateUnitsUI() {
+        const container = document.getElementById('unitsContainer');
+        container.innerHTML = '';
+        unitsList.forEach(unit => {
+            const chip = document.createElement('div');
+            chip.className = 'chip active';
+            chip.innerHTML = `${unit} <span class="remove" onclick="removeUnit('${unit}')">✕</span>`;
+            container.appendChild(chip);
+        });
+        document.querySelectorAll('select[id$="Unite"], #pUnite').forEach(select => {
+            const currentVal = select.value;
+            select.innerHTML = '';
+            unitsList.forEach(u => {
+                const opt = document.createElement('option');
+                opt.value = u;
+                opt.textContent = u;
+                select.appendChild(opt);
+            });
+            if (unitsList.includes(currentVal)) select.value = currentVal;
+        });
+        saveUnitsToFirebase();
+    }
+    window.addUnit = function() {
+        const input = document.getElementById('newUnitInput');
+        const unit = input.value.trim();
+        if (unit && !unitsList.includes(unit)) {
+            unitsList.push(unit);
+            updateUnitsUI();
+            input.value = '';
+            toast("Unité ajoutée !");
+        } else if (unitsList.includes(unit)) {
+            toast("Unité existe déjà", 'error');
+        } else {
+            toast("Entrez un nom d'unité", 'error');
+        }
+    };
+    window.removeUnit = function(unit) {
+        if (unitsList.length <= 1) { toast("Au moins une unité requise", 'error'); return; }
+        unitsList = unitsList.filter(u => u !== unit);
+        updateUnitsUI();
+        toast("Unité supprimée");
+    };
+    async function saveUnitsToFirebase() {
+        const snap = await getDocs(unitsRef);
+        if (!snap.empty) { const docId = snap.docs[0].id; await updateDoc(doc(db, "units", docId), { units: unitsList }); }
+        else { await addDoc(unitsRef, { units: unitsList }); }
+    }
+    async function loadUnitsFromFirebase() {
+        const snap = await getDocs(unitsRef);
+        if (!snap.empty) { const data = snap.docs[0].data(); if (data.units && data.units.length > 0) unitsList = data.units; }
+        updateUnitsUI();
+    }
+
+    // ===== CATEGORIES MANAGEMENT =====
+    function updateCategoriesUI() {
+        const container = document.getElementById('categoriesContainer');
+        container.innerHTML = '';
+        categoriesList.forEach(cat => {
+            const chip = document.createElement('div');
+            chip.className = 'chip active';
+            chip.innerHTML = `${cat} <span class="remove" onclick="removeCategory('${cat}')">✕</span>`;
+            container.appendChild(chip);
+        });
+        document.querySelectorAll('select[id$="CategorieEmploye"], #empCategorie').forEach(select => {
+            const currentVal = select.value;
+            select.innerHTML = `<option value="">Sans catégorie</option>`;
+            categoriesList.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat;
+                select.appendChild(opt);
+            });
+            if (categoriesList.includes(currentVal)) select.value = currentVal;
+        });
+        saveCategoriesToFirebase();
+    }
+    window.addCategory = function() {
+        const input = document.getElementById('newCategoryInput');
+        const cat = input.value.trim();
+        if (cat && !categoriesList.includes(cat)) {
+            categoriesList.push(cat);
+            updateCategoriesUI();
+            input.value = '';
+            toast("Catégorie ajoutée !");
+        } else if (categoriesList.includes(cat)) {
+            toast("Catégorie existe déjà", 'error');
+        } else {
+            toast("Entrez un nom de catégorie", 'error');
+        }
+    };
+    window.removeCategory = function(cat) {
+        if (categoriesList.length <= 1) { toast("Au moins une catégorie requise", 'error'); return; }
+        categoriesList = categoriesList.filter(c => c !== cat);
+        updateCategoriesUI();
+        toast("Catégorie supprimée");
+    };
+    async function saveCategoriesToFirebase() {
+        const snap = await getDocs(categoriesRef);
+        if (!snap.empty) { const docId = snap.docs[0].id; await updateDoc(doc(db, "categories", docId), { categories: categoriesList }); }
+        else { await addDoc(categoriesRef, { categories: categoriesList }); }
+    }
+    async function loadCategoriesFromFirebase() {
+        const snap = await getDocs(categoriesRef);
+        if (!snap.empty) { const data = snap.docs[0].data(); if (data.categories && data.categories.length > 0) categoriesList = data.categories; }
+        updateCategoriesUI();
+    }
+
+    // ===== PRODUITS SELECT UPDATE =====
+    function updateProduitsSelect() {
+        document.querySelectorAll('select[id$="Produit"]').forEach(select => {
+            const currentVal = select.value;
+            select.innerHTML = `<option value="">Sélectionner un produit *</option>`;
+            allProduits.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.nom;
+                const sectionIcon = p.section === 'CREPES' ? '🥞' : p.section === 'PDJ' ? '🍳' : '🍹';
+                opt.textContent = `${sectionIcon} ${p.nom} (${p.unite || ''})`;
+                select.appendChild(opt);
+            });
+            if (currentVal) select.value = currentVal;
+        });
+    }
+
+    // ===== FILTER PRODUCTS =====
+    function filterProducts() {
+        const sectionFilter = document.getElementById('filterSection').value;
+        const categoryFilter = document.getElementById('filterCategory').value;
+        const tbody = document.getElementById('tbodyProduits');
+        const rows = tbody.querySelectorAll('tr');
+        rows.forEach(row => {
+            const section = row.dataset.section || '';
+            const category = row.dataset.category || '';
+            let show = true;
+            if (sectionFilter !== 'all' && section !== sectionFilter) show = false;
+            if (categoryFilter !== 'all' && category !== categoryFilter) show = false;
+            row.style.display = show ? '' : 'none';
+        });
+    }
+
+    // ===== UPDATE CATEGORY FILTER =====
+    function updateCategoryFilter() {
+        const select = document.getElementById('filterCategory');
+        const section = document.getElementById('filterSection').value;
+        select.innerHTML = '<option value="all">Toutes catégories</option>';
+        const categories = new Set();
+        allProduits.forEach(p => {
+            if (section === 'all' || p.section === section) {
+                if (p.categorie) categories.add(p.categorie);
+            }
+        });
+        categories.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            select.appendChild(opt);
+        });
+    }
+
+    // ===== RESET PRODUCTS =====
+    document.getElementById('resetProductsBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (!confirm("⚠️ Réinitialiser tous les produits ? Cette action supprimera tous les produits existants et les remplacera par les produits par défaut.")) return;
+        
+        // Delete all products
+        const snap = await getDocs(produitsRef);
+        for (const doc of snap.docs) {
+            await deleteDoc(doc.ref);
+        }
+        
+        // Add default products
+        let count = 0;
+        for (const [section, categories] of Object.entries(defaultProducts)) {
+            for (const [categorie, items] of Object.entries(categories)) {
+                for (const nom of items) {
+                    await addDoc(produitsRef, {
+                        nom,
+                        section,
+                        categorie,
+                        unite: 'Pièce',
+                        stockMin: 2,
+                        timestamp: Date.now()
+                    });
+                    count++;
+                }
+            }
+        }
+        toast(`${count} produits réinitialisés !`);
+    });
+
+    // ===== LOGIN =====
+    loginBtn.addEventListener('click', async () => {
+        const u = loginUser.value.trim();
+        const p = loginPass.value.trim();
+        if (!u || !p) { loginError.textContent = "Remplissez tous les champs"; return; }
+        const q = query(usersRef, where("username", "==", u));
+        const snap = await getDocs(q);
+        let found = false;
+        snap.forEach(doc => {
+            if (doc.data().password === p) { found = true; currentUser = { username: u, role: doc.data().role || "Employee", id: doc.id }; }
+        });
+        if (!found && u === "admin" && p === "181219") {
+            found = true;
+            currentUser = { username: "admin", role: "Admin" };
+            const existing = await getDocs(query(usersRef, where("username", "==", "admin")));
+            if (existing.empty) await addDoc(usersRef, { username: "admin", password: "181219", role: "Admin" });
+        }
+        if (found) {
+            isViewer = currentUser.role === 'Viewer';
+            loginPage.style.display = 'none';
+            appMain.classList.add('active');
+            loginError.textContent = "";
+            document.getElementById('userDisplay').textContent = currentUser.username;
+            document.getElementById('roleDisplay').textContent = currentUser.role;
+            loadAllData();
+            loadUsers();
+            applyPermissions();
+            toast("Bienvenue !");
+        } else {
+            loginError.textContent = "Identifiants incorrects";
+        }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+        appMain.classList.remove('active');
+        loginPage.style.display = 'flex';
+        loginPass.value = "";
+        toast("Déconnexion");
+    });
+
+    // ===== PERMISSIONS =====
+    function applyPermissions() {
+        const isViewer = currentUser.role === 'Viewer';
+        document.querySelectorAll('.btn-block').forEach(btn => {
+            if (isViewer && !btn.id.includes('open')) { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
+        });
+        document.querySelectorAll('.action-btn.danger, .action-btn.info').forEach(btn => {
+            if (isViewer) btn.classList.add('disabled');
+        });
+        if (isViewer) { 
+            const unlockBtn = document.getElementById('configUnlockBtn');
+            if (unlockBtn) { unlockBtn.disabled = true; unlockBtn.style.opacity = '0.4'; }
+        }
+    }
+
+    // ===== NAVIGATION =====
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            item.classList.add('active');
+            const pageId = item.dataset.page;
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('dashboardScroll').scrollTop = 0;
+            const wrapper = document.getElementById('bottomNavWrapper');
+            const nav = document.getElementById('bottomNav');
+            const itemLeft = item.offsetLeft - nav.offsetLeft;
+            const itemWidth = item.offsetWidth;
+            const wrapperWidth = wrapper.offsetWidth;
+            wrapper.scrollLeft = itemLeft - (wrapperWidth / 2) + (itemWidth / 2);
+        });
+    });
+
+    // ===== FILTER EVENTS =====
+    document.getElementById('filterSection')?.addEventListener('change', () => {
+        updateCategoryFilter();
+        filterProducts();
+    });
+    document.getElementById('filterCategory')?.addEventListener('change', filterProducts);
+
+    // ===== MODAL OPENERS =====
+    document.getElementById('openProduitModal')?.addEventListener('click', () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        openModal('modalProduit');
+    });
+    document.getElementById('openEntreeModal')?.addEventListener('click', () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        updateProduitsSelect();
+        openModal('modalEntree');
+    });
+    document.getElementById('openSortieModal')?.addEventListener('click', () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        updateProduitsSelect();
+        openModal('modalSortie');
+    });
+    document.getElementById('openEmployeModal')?.addEventListener('click', () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        openModal('modalEmploye');
+    });
+    document.getElementById('openFournisseurModal')?.addEventListener('click', () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        openModal('modalFournisseur');
+    });
+    document.getElementById('openUserModal')?.addEventListener('click', () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        openModal('modalUser');
+    });
+
+    // ===== CONFIG UNLOCK =====
+    document.getElementById('configUnlockBtn')?.addEventListener('click', () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const pwd = prompt('Mot de passe:');
+        if (pwd === '181219') {
+            document.getElementById('configPanel').classList.remove('hidden');
+            isConfigUnlocked = true;
+            toast("Config déverrouillée");
+        } else {
+            toast("Mot de passe incorrect", 'error');
+        }
+    });
+
+    // ===== ADD PRODUIT =====
+    document.getElementById('addProduitBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const nom = document.getElementById('pNom').value.trim();
+        if (!nom) { toast("Nom requis", 'error'); return; }
+        await addDoc(produitsRef, {
+            nom,
+            section: document.getElementById('pSection').value,
+            categorie: document.getElementById('pCategorie').value.trim(),
+            unite: document.getElementById('pUnite').value,
+            stockMin: parseInt(document.getElementById('pMinStock').value) || 0,
+            timestamp: Date.now()
+        });
+        toast("Produit ajouté !");
+        closeModal('modalProduit');
+        document.getElementById('pNom').value = '';
+        document.getElementById('pCategorie').value = '';
+        document.getElementById('pMinStock').value = '';
+    });
+
+    // ===== ADD ENTREE =====
+    document.getElementById('addEntreeBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const produit = document.getElementById('eProduit').value;
+        const qte = parseFloat(document.getElementById('eQte').value);
+        if (!produit || !qte) { toast("Produit et quantité requis", 'error'); return; }
+        const produitData = allProduits.find(p => p.nom === produit);
+        await addDoc(entreesRef, {
+            nom: produit,
+            section: produitData?.section || '',
+            categorie: produitData?.categorie || '',
+            qte,
+            unite: produitData?.unite || '',
+            prixUnitaire: parseFloat(document.getElementById('ePrixUnitaire').value) || 0,
+            fournisseur: document.getElementById('eFournisseur').value,
+            personne: document.getElementById('ePersonne').value,
+            notes: document.getElementById('eNotes').value,
+            date: new Date().toLocaleDateString('fr-CA'),
+            timestamp: Date.now()
+        });
+        toast("Entrée ajoutée !");
+        closeModal('modalEntree');
+        document.getElementById('eProduit').value = '';
+        document.getElementById('eQte').value = '';
+        document.getElementById('ePrixUnitaire').value = '';
+        document.getElementById('eFournisseur').value = '';
+        document.getElementById('ePersonne').value = '';
+        document.getElementById('eNotes').value = '';
+    });
+
+    // ===== ADD SORTIE =====
+    document.getElementById('addSortieBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const produit = document.getElementById('sProduit').value;
+        const qte = parseFloat(document.getElementById('sQte').value);
+        if (!produit || !qte) { toast("Produit et quantité requis", 'error'); return; }
+        const produitData = allProduits.find(p => p.nom === produit);
+        const stockMap = calculateStock();
+        const currentStock = stockMap[produit]?.stockActuel || 0;
+        if (qte > currentStock) { toast(`Stock insuffisant! Disponible: ${currentStock}`, 'error'); return; }
+        await addDoc(sortiesRef, {
+            nom: produit,
+            section: produitData?.section || '',
+            categorie: produitData?.categorie || '',
+            qte,
+            unite: produitData?.unite || '',
+            responsable: document.getElementById('sPersonne').value,
+            notes: document.getElementById('sNotes').value,
+            date: new Date().toLocaleDateString('fr-CA'),
+            timestamp: Date.now()
+        });
+        toast("Sortie enregistrée !");
+        closeModal('modalSortie');
+        document.getElementById('sProduit').value = '';
+        document.getElementById('sQte').value = '';
+        document.getElementById('sPersonne').value = '';
+        document.getElementById('sNotes').value = '';
+    });
+
+    // ===== ADD EMPLOYE =====
+    document.getElementById('addEmployeBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const nom = document.getElementById('empNom').value.trim();
+        if (!nom) { toast("Nom requis", 'error'); return; }
+        await addDoc(employesRef, {
+            nom,
+            prenom: document.getElementById('empPrenom').value,
+            cin: document.getElementById('empCin').value,
+            tel: document.getElementById('empTel').value,
+            whatsapp: document.getElementById('empWhatsapp').value,
+            poste: document.getElementById('empPoste').value,
+            categorie: document.getElementById('empCategorie').value || '',
+            dateEmbauche: document.getElementById('empDate').value,
+            salaire: parseFloat(document.getElementById('empSalaire').value) || 0,
+            timestamp: Date.now()
+        });
+        toast("Employé ajouté !");
+        closeModal('modalEmploye');
+        document.getElementById('empNom').value = '';
+        document.getElementById('empPrenom').value = '';
+        document.getElementById('empCin').value = '';
+        document.getElementById('empTel').value = '';
+        document.getElementById('empWhatsapp').value = '';
+        document.getElementById('empPoste').value = '';
+        document.getElementById('empDate').value = '';
+        document.getElementById('empSalaire').value = '';
+    });
+
+    // ===== ADD FOURNISSEUR =====
+    document.getElementById('addFournisseurBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const nom = document.getElementById('fNom').value.trim();
+        if (!nom) { toast("Nom requis", 'error'); return; }
+        await addDoc(fournisseursRef, {
+            nom,
+            tel: document.getElementById('fTel').value,
+            whatsapp: document.getElementById('fWhatsapp').value,
+            adresse: document.getElementById('fAdresse').value,
+            type: document.getElementById('fType').value,
+            timestamp: Date.now()
+        });
+        toast("Fournisseur ajouté !");
+        closeModal('modalFournisseur');
+        document.getElementById('fNom').value = '';
+        document.getElementById('fTel').value = '';
+        document.getElementById('fWhatsapp').value = '';
+        document.getElementById('fAdresse').value = '';
+        document.getElementById('fType').value = '';
+    });
+
+    // ===== ADD USER =====
+    document.getElementById('addUserBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const username = document.getElementById('newUsername').value.trim();
+        const password = document.getElementById('newPassword').value.trim();
+        const role = document.getElementById('newRole').value;
+        if (!username || !password) { toast("Nom et mot de passe requis", 'error'); return; }
+        const existing = await getDocs(query(usersRef, where("username", "==", username)));
+        if (!existing.empty) { toast("Utilisateur existe déjà", 'error'); return; }
+        await addDoc(usersRef, { username, password, role, timestamp: Date.now() });
+        toast("Utilisateur ajouté !");
+        closeModal('modalUser');
+        document.getElementById('newUsername').value = '';
+        document.getElementById('newPassword').value = '';
+        loadUsers();
+    });
+
+    // ===== CHANGE PASSWORD =====
+    document.getElementById('changePassBtn')?.addEventListener('click', async () => {
+        const old = document.getElementById('changePassOld').value;
+        const newPass = document.getElementById('changePassNew').value;
+        if (!old || !newPass) { toast("Remplissez les deux champs", 'error'); return; }
+        const userRef = query(usersRef, where("username", "==", currentUser.username));
+        const snap = await getDocs(userRef);
+        let found = false;
+        snap.forEach(async doc => {
+            if (doc.data().password === old) {
+                found = true;
+                await updateDoc(doc.ref, { password: newPass });
+                toast("Mot de passe changé !");
+                document.getElementById('changePassOld').value = '';
+                document.getElementById('changePassNew').value = '';
+            }
+        });
+        if (!found) toast("Ancien mot de passe incorrect", 'error');
+    });
+
+    // ===== ARCHIVE =====
+    let lastArchiveResult = [];
+
+    document.getElementById('archiveSearchBtn')?.addEventListener('click', async () => {
+        const dateStart = document.getElementById('archiveDate').value;
+        const dateEnd = document.getElementById('archiveDateEnd').value || dateStart;
+        if (!dateStart) { toast("Sélectionnez une date", 'error'); return; }
+        
+        const q1 = query(entreesRef, where("date", ">=", dateStart));
+        const q2 = query(sortiesRef, where("date", ">=", dateStart));
+        const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
+        
+        let results = [];
+        snap1.forEach(d => { const data = d.data(); results.push({ type: 'Entrée', ...data, id: d.id }); });
+        snap2.forEach(d => { const data = d.data(); results.push({ type: 'Sortie', ...data, id: d.id }); });
+        
+        if (dateEnd) {
+            results = results.filter(r => r.date <= dateEnd);
+        }
+        results.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+        lastArchiveResult = results;
+        
+        let html = `<div style="background:var(--glass);border-radius:14px;padding:14px;border:1px solid var(--glass-border);">
+            <p style="font-weight:600;color:var(--gold);font-size:13px;margin-bottom:6px;">📊 ${dateStart} ${dateEnd ? '→ ' + dateEnd : ''}</p>
+            <p style="font-size:12px;margin-bottom:10px;">Total: ${results.length} enregistrements</p>`;
+        
+        if (results.length > 0) {
+            html += `<div class="table-responsive"><table><thead><tr>
+                <th>Type</th>
+                <th>Produit</th>
+                <th>Section</th>
+                <th>Catégorie</th>
+                <th>Qte</th>
+                <th>Unité</th>
+                <th>Date</th>
+                <th>Responsable</th>
+                <th>Notes</th>
+            </tr></thead><tbody>`;
+            results.forEach(r => {
+                const sectionIcon = r.section === 'CREPES' ? '🥞' : r.section === 'PDJ' ? '🍳' : '🍹';
+                const typeColor = r.type === 'Entrée' ? 'success' : 'danger';
+                html += `<tr>
+                    <td><span class="badge badge-${typeColor}">${r.type === 'Entrée' ? 'E' : 'S'}</span></td>
+                    <td>${r.nom || ''}</td>
+                    <td>${sectionIcon} ${r.section || ''}</td>
+                    <td>${r.categorie || ''}</td>
+                    <td><strong>${r.qte || 0}</strong></td>
+                    <td>${r.unite || ''}</td>
+                    <td>${r.date || ''}</td>
+                    <td>${r.personne || r.responsable || ''}</td>
+                    <td style="font-size:10px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.notes || ''}</td>
+                </tr>`;
+            });
+            html += `</tbody></table></div>`;
+        } else {
+            html += `<p style="opacity:0.6;font-size:12px;">Aucune donnée pour cette période</p>`;
+        }
+        html += `</div>`;
+        document.getElementById('archiveResult').innerHTML = html;
+    });
+
+    // ===== PRINT ARCHIVE =====
+    document.getElementById('archivePrintBtn')?.addEventListener('click', () => {
+        if (lastArchiveResult.length === 0) {
+            toast("Aucune donnée à imprimer. Faites une recherche d'abord.", 'error');
+            return;
+        }
+        
+        const dateStart = document.getElementById('archiveDate').value || 'Toutes';
+        const dateEnd = document.getElementById('archiveDateEnd').value || dateStart;
+        
+        let html = `
+        <div id="printContent">
+            <div class="print-title">🥞 LES MIRABELLES - Rapport d'archive</div>
+            <div class="print-subtitle">Période: ${dateStart} ${dateEnd !== dateStart ? '→ ' + dateEnd : ''} | ${new Date().toLocaleDateString('fr-FR')}</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Produit</th>
+                        <th>Section</th>
+                        <th>Catégorie</th>
+                        <th>Qte</th>
+                        <th>Unité</th>
+                        <th>Date</th>
+                        <th>Responsable</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        lastArchiveResult.forEach(r => {
+            const typeLabel = r.type === 'Entrée' ? 'E' : 'S';
+            const typeClass = r.type === 'Entrée' ? 'entry' : 'exit';
+            html += `
+                <tr>
+                    <td><span class="badge-print ${typeClass}">${typeLabel}</span></td>
+                    <td>${r.nom || ''}</td>
+                    <td>${r.section || ''}</td>
+                    <td>${r.categorie || ''}</td>
+                    <td>${r.qte || 0}</td>
+                    <td>${r.unite || ''}</td>
+                    <td>${r.date || ''}</td>
+                    <td>${r.personne || r.responsable || ''}</td>
+                    <td style="font-size:8px;">${r.notes || ''}</td>
+                </tr>
+            `;
+        });
+        
+        html += `
+                </tbody>
+                <tfoot>
+                    <tr style="font-weight:700;border-top:2px solid #000;">
+                        <td colspan="9" style="text-align:center;font-size:10px;color:#666;padding-top:16px;">
+                            Rapport généré le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}
+                            <br>LES MIRABELLES - Système de gestion d'inventaire
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        `;
+        
+        const printWindow = window.open('', '_blank', 'width=1200,height=800');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head><title>Rapport LES MIRABELLES</title>
+            <style>
+                body { font-family: 'Inter', 'Cairo', sans-serif; padding: 20px; }
+                .print-title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 8px; color: #000; }
+                .print-subtitle { text-align: center; font-size: 14px; margin-bottom: 16px; color: #333; }
+                table { width: 100%; border-collapse: collapse; font-size: 10px; }
+                th { background: #f0f0f0; color: #000; border: 1px solid #ccc; padding: 6px; text-align: center; font-weight: 700; }
+                td { border: 1px solid #ccc; padding: 4px 6px; text-align: center; }
+                .badge-print { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 8px; font-weight: 700; }
+                .badge-print.entry { background: #d4edda; color: #155724; }
+                .badge-print.exit { background: #f8d7da; color: #721c24; }
+                tfoot td { font-weight: 700; border-top: 2px solid #000; }
+                @media print {
+                    body { padding: 0; }
+                    table { font-size: 9px; }
+                    th, td { padding: 3px 4px; }
+                }
+            </style>
+            </head>
+            <body>${html}</body>
+            </html>
+        `);
+        printWindow.document.close();
+        setTimeout(() => { printWindow.print(); }, 500);
+        toast("Document HTML généré pour impression A4");
+    });
+
+    // ===== LOAD DATA =====
+    function loadAllData() {
+        // Produits
+        onSnapshot(query(produitsRef, orderBy('timestamp', 'desc')), (snapshot) => {
+            const tbody = document.getElementById('tbodyProduits');
+            tbody.innerHTML = '';
+            allProduits = [];
+            const stockMap = calculateStock();
+            
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                allProduits.push({ id: doc.id, ...d });
+                const stock = stockMap[d.nom]?.stockActuel || 0;
+                let statusClass = 'stock-ok';
+                let statusBadge = 'badge-success';
+                if (stock <= 0) { statusClass = 'stock-out'; statusBadge = 'badge-danger'; }
+                else if (stock <= (d.stockMin || 0)) { statusClass = 'stock-low'; statusBadge = 'badge-warning'; }
+                
+                const sectionIcon = d.section === 'CREPES' ? '🥞' : d.section === 'PDJ' ? '🍳' : '🍹';
+                const sectionBadge = d.section === 'CREPES' ? 'badge-crepes' : d.section === 'PDJ' ? 'badge-pdj' : 'badge-bar';
+                
+                const tr = document.createElement('tr');
+                tr.dataset.section = d.section || '';
+                tr.dataset.category = d.categorie || '';
+                tr.innerHTML = `
+                    <td><span class="stock-indicator ${statusClass}"></span>${d.nom || ''}</td>
+                    <td><span class="badge ${sectionBadge}">${sectionIcon} ${d.section || '-'}</span></td>
+                    <td>${d.categorie || '-'}</td>
+                    <td>${d.unite || ''}</td>
+                    <td><strong>${stock}</strong></td>
+                    <td>
+                        <button class="action-btn info" onclick="showDetails('Produit - ${d.nom}', {
+                            'Nom': '${d.nom || ''}',
+                            'Section': '${d.section || ''}',
+                            'Catégorie': '${d.categorie || ''}',
+                            'Unité': '${d.unite || ''}',
+                            'Stock min': '${d.stockMin || 0}',
+                            'Stock actuel': '${stock}'
+                        })"><i class="fas fa-eye"></i></button>
+                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteProduit('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            updateCategoryFilter();
+            filterProducts();
+            updateProduitsSelect();
+            updateAlerts();
+            updateStockSummary();
+        });
+
+        // Entrées
+        onSnapshot(query(entreesRef, orderBy('timestamp', 'desc')), (snapshot) => {
+            const tbody = document.getElementById('tbodyEntrees');
+            tbody.innerHTML = '';
+            allEntrees = [];
+            let totalVal = 0;
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                allEntrees.push({ id: doc.id, ...d });
+                const total = (d.qte || 0) * (d.prixUnitaire || 0);
+                totalVal += total;
+                const sectionIcon = d.section === 'CREPES' ? '🥞' : d.section === 'PDJ' ? '🍳' : '🍹';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${d.nom || ''}</td>
+                    <td>${sectionIcon} ${d.section || ''}</td>
+                    <td><strong>${d.qte || 0}</strong> ${d.unite || ''}</td>
+                    <td>${d.date || ''}</td>
+                    <td>
+                        <button class="action-btn info" onclick="showDetails('Entrée - ${d.nom}', {
+                            'Produit': '${d.nom || ''}',
+                            'Section': '${d.section || ''}',
+                            'Catégorie': '${d.categorie || ''}',
+                            'Quantité': '${d.qte || 0}',
+                            'Unité': '${d.unite || ''}',
+                            'Prix unitaire': '${d.prixUnitaire || 0}',
+                            'Total': '${total.toFixed(2)}',
+                            'Fournisseur': '${d.fournisseur || ''}',
+                            'Responsable': '${d.personne || ''}',
+                            'Notes': '${d.notes || ''}',
+                            'Date': '${d.date || ''}'
+                        })"><i class="fas fa-eye"></i></button>
+                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteEntree('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('statEntrees').textContent = snapshot.size;
+            document.getElementById('statStock').textContent = totalVal.toFixed(0);
+            updateAlerts();
+            updateStockSummary();
+        });
+
+        // Sorties
+        onSnapshot(query(sortiesRef, orderBy('timestamp', 'desc')), (snapshot) => {
+            const tbody = document.getElementById('tbodySorties');
+            tbody.innerHTML = '';
+            allSorties = [];
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                allSorties.push({ id: doc.id, ...d });
+                const sectionIcon = d.section === 'CREPES' ? '🥞' : d.section === 'PDJ' ? '🍳' : '🍹';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${d.nom || ''}</td>
+                    <td>${sectionIcon} ${d.section || ''}</td>
+                    <td><strong>${d.qte || 0}</strong> ${d.unite || ''}</td>
+                    <td>${d.responsable || ''}</td>
+                    <td>
+                        <button class="action-btn info" onclick="showDetails('Sortie - ${d.nom}', {
+                            'Produit': '${d.nom || ''}',
+                            'Section': '${d.section || ''}',
+                            'Catégorie': '${d.categorie || ''}',
+                            'Quantité': '${d.qte || 0}',
+                            'Unité': '${d.unite || ''}',
+                            'Responsable': '${d.responsable || ''}',
+                            'Notes': '${d.notes || ''}',
+                            'Date': '${d.date || ''}'
+                        })"><i class="fas fa-eye"></i></button>
+                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteSortie('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('statSorties').textContent = snapshot.size;
+            updateAlerts();
+            updateStockSummary();
+        });
+
+        // Employés
+        onSnapshot(employesRef, (snapshot) => {
+            const tbody = document.getElementById('tbodyEmployes');
+            tbody.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${d.nom || ''}</td>
+                    <td>${d.poste || ''}</td>
+                    <td><span class="badge badge-purple">${d.categorie || 'Sans'}</span></td>
+                    <td>
+                        <button class="action-btn info" onclick="showDetails('Employé - ${d.nom}', {
+                            'Nom': '${d.nom || ''}',
+                            'Prénom': '${d.prenom || ''}',
+                            'CIN': '${d.cin || ''}',
+                            'Téléphone': '${d.tel || ''}',
+                            'WhatsApp': '${d.whatsapp || ''}',
+                            'Poste': '${d.poste || ''}',
+                            'Catégorie': '${d.categorie || ''}',
+                            'Date embauche': '${d.dateEmbauche || ''}',
+                            'Salaire': '${d.salaire || 0}'
+                        })"><i class="fas fa-eye"></i></button>
+                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteEmploye('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('statEmployes').textContent = snapshot.size;
+        });
+        
+        // Fournisseurs
+        onSnapshot(fournisseursRef, (snapshot) => {
+            const tbody = document.getElementById('tbodyFournisseurs');
+            tbody.innerHTML = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${d.nom || ''}</td>
+                    <td>${d.tel || ''}</td>
+                    <td>${d.type || ''}</td>
+                    <td>
+                        <button class="action-btn info" onclick="showDetails('Fournisseur - ${d.nom}', {
+                            'Nom': '${d.nom || ''}',
+                            'Téléphone': '${d.tel || ''}',
+                            'WhatsApp': '${d.whatsapp || ''}',
+                            'Adresse': '${d.adresse || ''}',
+                            'Type de biens': '${d.type || ''}'
+                        })"><i class="fas fa-eye"></i></button>
+                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteFournisseur('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('statFournisseurs').textContent = snapshot.size;
+        });
+    }
+
+    async function loadUsers() {
+        const snap = await getDocs(query(usersRef, orderBy("username")));
+        const tbody = document.getElementById('tbodyUsers');
+        tbody.innerHTML = '';
+        allUsers = [];
+        snap.forEach(doc => {
+            const d = doc.data();
+            allUsers.push({ id: doc.id, ...d });
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${d.username}</td>
+                <td><span class="badge ${d.role === 'Admin' ? 'badge-success' : d.role === 'Viewer' ? 'badge-warning' : 'badge-info'}">${d.role}</span></td>
+                <td>
+                    ${!isViewer && d.username !== 'admin' ? `<button class="action-btn danger" onclick="deleteUser('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                    ${!isViewer ? `<button class="action-btn" onclick="editUserRole('${doc.id}')"><i class="fas fa-edit"></i></button>` : ''}
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // ===== GLOBAL DELETE FUNCTIONS =====
+    window.deleteEntree = async (id) => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "entrees", id)); toast("Supprimée"); }
+    };
+    window.deleteSortie = async (id) => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "sorties", id)); toast("Supprimée"); }
+    };
+    window.deleteProduit = async (id) => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "produits", id)); toast("Supprimé"); }
+    };
+    window.deleteEmploye = async (id) => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "employes", id)); toast("Supprimé"); }
+    };
+    window.deleteFournisseur = async (id) => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "fournisseurs", id)); toast("Supprimé"); }
+    };
+    window.deleteUser = async (id) => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "users", id)); toast("Supprimé"); loadUsers(); }
+    };
+    window.editUserRole = async (id) => {
+        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        const user = allUsers.find(u => u.id === id);
+        if (!user) return;
+        const newRole = prompt(`Rôle de ${user.username}:`, user.role);
+        if (newRole && ['Admin','Manager','Employee','Viewer'].includes(newRole)) {
+            await updateDoc(doc(db, "users", id), { role: newRole });
+            toast("Rôle mis à jour !");
+            loadUsers();
+        }
+    };
+
+    // ===== INIT =====
+    (async () => {
+        await loadUnitsFromFirebase();
+        await loadCategoriesFromFirebase();
+        const snap = await getDocs(query(usersRef, where("username", "==", "admin")));
+        if (snap.empty) { await addDoc(usersRef, { username: "admin", password: "181219", role: "Admin" }); }
+        
+        // Check if products exist, if not, initialize with default products
+        const productsSnap = await getDocs(produitsRef);
+        if (productsSnap.empty) {
+            let count = 0;
+            for (const [section, categories] of Object.entries(defaultProducts)) {
+                for (const [categorie, items] of Object.entries(categories)) {
+                    for (const nom of items) {
+                        await addDoc(produitsRef, {
+                            nom,
+                            section,
+                            categorie,
+                            unite: 'Pièce',
+                            stockMin: 2,
+                            timestamp: Date.now()
+                        });
+                        count++;
+                    }
+                }
+            }
+            console.log(`✅ ${count} produits par défaut ajoutés`);
+        }
+    })();
+
+    console.log("✅ LES MIRABELLES - Stock Management System");
+</script>
+</body>
+</html>gy
