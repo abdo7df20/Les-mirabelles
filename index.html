@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #6C63FF;
@@ -246,6 +245,8 @@
         .stat-card .label { font-size: 10px; opacity: 0.6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
         .stat-card.alert { background: linear-gradient(135deg, rgba(255, 61, 113, 0.1), rgba(255, 170, 0, 0.1)); border-color: var(--danger); }
         .stat-card.alert i { background: linear-gradient(135deg, var(--danger), var(--warning)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: blink 1.5s infinite; }
+        .stat-card.avance { background: linear-gradient(135deg, rgba(255, 170, 0, 0.1), rgba(108, 99, 255, 0.1)); border-color: var(--warning); }
+        .stat-card.avance i { background: linear-gradient(135deg, var(--warning), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         /* ===== ALERTS ===== */
@@ -255,7 +256,7 @@
             border-radius: 16px;
             padding: 14px;
             margin-bottom: 12px;
-            max-height: 100px;
+            max-height: 120px;
             overflow-y: auto;
         }
         .alerts-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(--warning); }
@@ -263,20 +264,24 @@
             background: rgba(255, 170, 0, 0.05);
             border: 1px solid rgba(255, 170, 0, 0.2);
             border-radius: 10px;
-            padding: 8px 12px;
-            margin-bottom: 6px;
+            padding: 6px 12px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             transition: all 0.3s;
+            font-size: 12px;
         }
         .alert-item:hover { background: rgba(255, 170, 0, 0.1); transform: translateX(4px); }
         .alert-item.danger { background: rgba(255, 61, 113, 0.05); border-color: rgba(255, 61, 113, 0.2); }
         .alert-item.danger:hover { background: rgba(255, 61, 113, 0.1); }
+        .alert-item.avance { background: rgba(255, 170, 0, 0.08); border-color: rgba(255, 170, 0, 0.3); }
+        .alert-item.avance:hover { background: rgba(255, 170, 0, 0.15); }
         .alert-info { display: flex; align-items: center; gap: 8px; }
-        .alert-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
-        .alert-item:not(.danger) .alert-icon { background: rgba(255, 170, 0, 0.2); color: var(--warning); }
+        .alert-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+        .alert-item:not(.danger):not(.avance) .alert-icon { background: rgba(255, 170, 0, 0.2); color: var(--warning); }
         .alert-item.danger .alert-icon { background: rgba(255, 61, 113, 0.2); color: var(--danger); }
+        .alert-item.avance .alert-icon { background: rgba(255, 170, 0, 0.2); color: var(--warning); }
         .alert-text { font-size: 12px; font-weight: 600; }
         .alert-badge { background: rgba(255, 255, 255, 0.1); padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; }
 
@@ -337,12 +342,29 @@
         .btn-secondary { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: #fff; }
         .btn-success { background: linear-gradient(135deg, var(--success), #00B882); color: #fff; }
         .btn-gold { background: linear-gradient(135deg, var(--gold), #FFA500); color: #0A0E17; }
-        .btn-crepes { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: #fff; }
-        .btn-pdj { background: linear-gradient(135deg, #4ECDC4, #44B39D); color: #fff; }
-        .btn-bar { background: linear-gradient(135deg, #45B7D1, #96C93D); color: #fff; }
+        .btn-warning { background: linear-gradient(135deg, var(--warning), #FFA500); color: #0A0E17; }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 11px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-sm:hover { transform: scale(1.05); }
+        .btn-sm:active { transform: scale(0.95); }
+        .btn-sm-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; }
+        .btn-sm-success { background: linear-gradient(135deg, var(--success), #00B882); color: #fff; }
+        .btn-sm-danger { background: linear-gradient(135deg, var(--danger), #FF3D71); color: #fff; }
+        .btn-sm-warning { background: linear-gradient(135deg, var(--warning), #FFA500); color: #0A0E17; }
+
         .table-responsive { overflow-x: auto; margin: 6px 0; border-radius: 10px; -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th { padding: 10px 8px; text-align: center; color: var(--gold); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 2px solid var(--glass-border); background: rgba(255, 255, 255, 0.02); }
+        th { padding: 10px 8px; text-align: center; color: var(--gold); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 2px solid var(--glass-border); background: rgba(255, 255, 255, 0.02); position: sticky; top: 0; z-index: 10; }
         td { padding: 10px 8px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.03); font-size: 12px; vertical-align: middle; font-weight: 500; }
         tr:hover { background: rgba(255, 255, 255, 0.02); }
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 9px; font-weight: 700; display: inline-block; text-transform: uppercase; letter-spacing: 0.3px; }
@@ -351,13 +373,13 @@
         .badge-danger { background: rgba(255, 61, 113, 0.15); color: var(--danger); border: 1px solid rgba(255, 61, 113, 0.3); }
         .badge-info { background: rgba(0, 149, 255, 0.15); color: var(--info); border: 1px solid rgba(0, 149, 255, 0.3); }
         .badge-purple { background: rgba(108, 99, 255, 0.15); color: var(--primary); border: 1px solid rgba(108, 99, 255, 0.3); }
-        .badge-crepes { background: rgba(255, 107, 107, 0.2); color: #FF6B6B; border: 1px solid rgba(255, 107, 107, 0.3); }
-        .badge-pdj { background: rgba(78, 205, 196, 0.2); color: #4ECDC4; border: 1px solid rgba(78, 205, 196, 0.3); }
-        .badge-bar { background: rgba(69, 183, 209, 0.2); color: #45B7D1; border: 1px solid rgba(69, 183, 209, 0.3); }
+        .badge-avance { background: rgba(255, 170, 0, 0.2); color: var(--warning); border: 1px solid rgba(255, 170, 0, 0.3); }
         .stock-indicator { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
         .stock-ok { background: var(--success); }
         .stock-low { background: var(--warning); }
         .stock-out { background: var(--danger); animation: blink 1s infinite; }
+        .stock-avance { background: var(--warning); animation: blink 1s infinite; }
+
         .action-btn {
             background: var(--glass);
             border: 1px solid var(--glass-border);
@@ -372,6 +394,7 @@
         .action-btn:hover { transform: scale(1.1); background: rgba(255, 255, 255, 0.1); }
         .action-btn.danger { color: var(--danger); }
         .action-btn.info { color: var(--info); }
+        .action-btn.warning { color: var(--warning); }
         .action-btn:active { transform: scale(0.95); }
         .action-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
@@ -496,6 +519,7 @@
             border: 1px solid var(--glass-border);
             box-shadow: var(--shadow-lg);
         }
+        .modal-content.wide { max-width: 800px; }
         @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .modal-handle { width: 36px; height: 3px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; margin: 0 auto 16px auto; }
         .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.3px; }
@@ -506,7 +530,27 @@
         .detail-row .label { opacity: 0.6; font-weight: 500; }
         .detail-row .value { font-weight: 700; text-align: right; }
 
-        /* ===== TOAST ===== */
+        /* ===== CODE HTML ===== */
+        #codeHtmlContent {
+            width: 100%;
+            min-height: 400px;
+            background: #0A0E17;
+            color: #00FF00;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            resize: vertical;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        #codeHtmlContent:focus { outline: none; border-color: var(--primary); }
+        .code-actions { display: flex; gap: 8px; margin-bottom: 12px; }
+        .code-actions .btn-block { flex: 1; }
+        .code-footer { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; opacity: 0.6; }
+
         .toast {
             position: fixed;
             bottom: calc(var(--nav-height) + 20px);
@@ -528,9 +572,9 @@
         }
         .toast.success { border-left: 4px solid var(--primary); }
         .toast.error { border-left: 4px solid var(--danger); }
+        .toast.warning { border-left: 4px solid var(--warning); }
         @keyframes toastAnim { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-        /* ===== CHIPS ===== */
         .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px 0; }
         .chip {
             background: var(--glass);
@@ -556,12 +600,91 @@
         .add-chip-input button:hover { transform: scale(1.05); }
         .add-chip-input button:active { transform: scale(0.95); }
 
-        /* ===== HIDDEN ===== */
         .hidden { display: none !important; }
 
-        /* ===== RESPONSIVE ===== */
+        /* ===== SECTION CARD ===== */
+        .section-card {
+            background: var(--dark-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .section-card:hover { border-color: var(--primary); }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--glass-border);
+        }
+        .section-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .category-container { margin-left: 12px; padding-left: 12px; border-left: 2px solid var(--glass-border); }
+        .category-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            transition: all 0.3s;
+        }
+        .category-item:hover { background: rgba(108, 99, 255, 0.05); }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .category-name {
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .category-name .badge { font-size: 8px; }
+        .product-item {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            padding: 4px 10px;
+            margin: 2px 4px 2px 0;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .product-item:hover {
+            background: rgba(108, 99, 255, 0.15);
+            transform: scale(1.02);
+        }
+        .product-item .remove {
+            cursor: pointer;
+            color: var(--danger);
+            margin-left: 4px;
+            font-size: 10px;
+        }
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
         @media (max-width: 480px) {
-            .dashboard-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
             .stat-card { padding: 10px 6px; }
             .stat-card .number { font-size: 18px; }
             .stat-card i { font-size: 18px; }
@@ -575,6 +698,11 @@
             .user-badge span { display: none; }
             .bottom-nav-wrapper { height: 64px; }
             :root { --nav-height: 64px; --header-height: 56px; }
+            .code-actions { flex-direction: column; }
+            #codeHtmlContent { min-height: 250px; font-size: 10px; }
+            .section-header { flex-direction: column; gap: 8px; align-items: stretch; }
+            .section-actions { justify-content: center; flex-wrap: wrap; }
+            .category-header { flex-direction: column; gap: 6px; align-items: stretch; }
         }
         @media (min-width: 600px) {
             .dashboard-grid { grid-template-columns: repeat(4, 1fr); }
@@ -583,68 +711,10 @@
         @media (min-width: 900px) {
             .dashboard-grid { grid-template-columns: repeat(6, 1fr); }
         }
-
-        /* ===== PRINT STYLES ===== */
-        @media print {
-            body * { visibility: hidden; }
-            #printContent, #printContent * { visibility: visible; }
-            #printContent {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 210mm;
-                padding: 20mm;
-                background: #fff;
-                color: #000;
-                font-family: 'Inter', 'Cairo', sans-serif;
-            }
-            #printContent table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 10px;
-            }
-            #printContent th {
-                background: #f0f0f0;
-                color: #000;
-                border: 1px solid #ccc;
-                padding: 6px;
-                text-align: center;
-                font-weight: 700;
-            }
-            #printContent td {
-                border: 1px solid #ccc;
-                padding: 4px 6px;
-                text-align: center;
-            }
-            #printContent .print-title {
-                font-size: 20px;
-                font-weight: 800;
-                text-align: center;
-                margin-bottom: 8px;
-                color: #000;
-            }
-            #printContent .print-subtitle {
-                text-align: center;
-                font-size: 12px;
-                margin-bottom: 16px;
-                color: #333;
-            }
-            #printContent .badge-print {
-                display: inline-block;
-                padding: 2px 8px;
-                border-radius: 4px;
-                font-size: 8px;
-                font-weight: 700;
-            }
-            #printContent .badge-print.entry { background: #d4edda; color: #155724; }
-            #printContent .badge-print.exit { background: #f8d7da; color: #721c24; }
-            .no-print { display: none !important; }
-        }
     </style>
 </head>
 <body>
 
-<!-- ===== LOGIN ===== -->
 <div id="loginPage" class="login-container">
     <div class="login-box">
         <div class="login-logo"><i class="fas fa-utensils"></i></div>
@@ -657,9 +727,7 @@
     </div>
 </div>
 
-<!-- ===== MAIN APP ===== -->
 <div id="appMain">
-    <!-- HEADER -->
     <div class="app-header">
         <div class="brand">
             <i class="fas fa-utensils"></i>
@@ -679,77 +747,55 @@
         </div>
     </div>
 
-    <!-- DASHBOARD SCROLL -->
     <div class="dashboard-scroll" id="dashboardScroll">
-        <!-- Dashboard Stats -->
         <div class="dashboard-grid" id="dashboardStats">
             <div class="stat-card"><i class="fas fa-arrow-down"></i><div class="number" id="statEntrees">0</div><div class="label">Entrées</div></div>
             <div class="stat-card"><i class="fas fa-arrow-up"></i><div class="number" id="statSorties">0</div><div class="label">Sorties</div></div>
             <div class="stat-card"><i class="fas fa-boxes"></i><div class="number" id="statStock">0</div><div class="label">Valeur</div></div>
             <div class="stat-card alert"><i class="fas fa-exclamation-triangle"></i><div class="number" id="statAlert">0</div><div class="label">Alertes</div></div>
+            <div class="stat-card avance"><i class="fas fa-hand-holding-usd"></i><div class="number" id="statAvances">0</div><div class="label">En Avance</div></div>
             <div class="stat-card"><i class="fas fa-truck"></i><div class="number" id="statFournisseurs">0</div><div class="label">Fournisseurs</div></div>
             <div class="stat-card"><i class="fas fa-users"></i><div class="number" id="statEmployes">0</div><div class="label">Employés</div></div>
         </div>
 
-        <!-- ===== ALERTS SECTION ===== -->
         <div class="alerts-section" id="alertsSection">
-            <div class="alerts-title">
-                <i class="fas fa-bell"></i>
-                <span>Alertes de stock</span>
-            </div>
+            <div class="alerts-title"><i class="fas fa-bell"></i><span>Alertes de stock</span></div>
             <div id="alertsList"></div>
         </div>
 
-        <!-- ===== PAGE: DASHBOARD ===== -->
         <div id="pageDashboard" class="page-content active">
             <div class="page-title"><i class="fas fa-chart-line"></i> Tableau de bord</div>
             <div class="card-glass">
                 <p style="font-size:13px;font-weight:600;margin-bottom:10px;"><i class="fas fa-box" style="color:var(--primary);"></i> Résumé du stock</p>
                 <div class="table-responsive">
                     <table>
-                        <thead>
-                            <tr><th>Produit</th><th>Section</th><th>Catégorie</th><th>Stock</th><th>Min</th><th>Statut</th></tr>
-                        </thead>
+                        <thead><tr><th>Produit</th><th>Section</th><th>Catégorie</th><th>Entrées</th><th>Sorties</th><th>Avances</th><th>Stock</th><th>Statut</th></tr></thead>
                         <tbody id="tbodyStockSummary"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- ===== PAGE: PRODUITS ===== -->
         <div id="pageProduits" class="page-content">
-            <div class="page-title"><i class="fas fa-box"></i> Produits <span class="subtitle">Gestion complète</span></div>
+            <div class="page-title"><i class="fas fa-box"></i> Produits <span class="subtitle">Gestion hiérarchique</span></div>
+            <div id="sectionsContainer"></div>
+        </div>
+
+        <div id="pageAvances" class="page-content">
+            <div class="page-title"><i class="fas fa-hand-holding-usd"></i> Avances</div>
             <div class="card-glass">
-                <div class="row">
-                    <div class="col third">
-                        <button id="openProduitModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
-                    </div>
-                    <div class="col third">
-                        <select id="filterSection" class="form-select" style="margin-bottom:0;">
-                            <option value="all">Toutes sections</option>
-                            <option value="CREPES">🥞 Crêpes</option>
-                            <option value="PDJ">🍳 Petit Déjeuner</option>
-                            <option value="BAR">🍹 Bar</option>
-                        </select>
-                    </div>
-                    <div class="col third">
-                        <select id="filterCategory" class="form-select" style="margin-bottom:0;">
-                            <option value="all">Toutes catégories</option>
-                        </select>
-                    </div>
-                </div>
+                <button id="openAvanceModal" class="btn-block btn-warning"><i class="fas fa-plus"></i> Nouvelle avance</button>
             </div>
             <div class="card-glass">
                 <div class="table-responsive">
                     <table>
-                        <thead><tr><th>Nom</th><th>Section</th><th>Catégorie</th><th>Unité</th><th>Stock</th><th>Actions</th></tr></thead>
-                        <tbody id="tbodyProduits"></tbody>
+                        <thead><tr><th>Produit</th><th>Quantité</th><th>Date</th><th>Responsable</th><th>Actions</th></tr></thead>
+                        <tbody id="tbodyAvances"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- ===== PAGE: ENTREES ===== -->
         <div id="pageEntrees" class="page-content">
             <div class="page-title"><i class="fas fa-arrow-down"></i> Entrées</div>
             <div class="card-glass">
@@ -765,7 +811,6 @@
             </div>
         </div>
 
-        <!-- ===== PAGE: SORTIES ===== -->
         <div id="pageSorties" class="page-content">
             <div class="page-title"><i class="fas fa-arrow-up"></i> Sorties</div>
             <div class="card-glass">
@@ -781,37 +826,35 @@
             </div>
         </div>
 
-        <!-- ===== PAGE: CONFIG ===== -->
         <div id="pageConfig" class="page-content">
             <div class="page-title"><i class="fas fa-cog"></i> Configuration</div>
             <div class="card-glass">
-                <p style="opacity:0.6;font-size:12px;margin-bottom:10px;">🔒 Accès sécurisé</p>
+                <p style="opacity:0.6;font-size:12px;margin-bottom:10px;">🔐 Accès sécurisé</p>
                 <button id="configUnlockBtn" class="btn-block btn-primary"><i class="fas fa-unlock"></i> Déverrouiller</button>
                 <div id="configPanel" class="hidden" style="margin-top:12px;">
-                    <p style="font-size:13px;font-weight:700;margin-bottom:8px;">📦 Unités</p>
+                    <p style="font-size:13px;font-weight:700;margin-bottom:8px;">📝 Unités</p>
                     <div class="chip-group" id="unitsContainer"></div>
                     <div class="add-chip-input">
                         <input id="newUnitInput" placeholder="Nouvelle unité">
                         <button onclick="addUnit()">+</button>
                     </div>
                     <hr style="border-color:rgba(255,255,255,0.05);margin:14px 0;">
-                    <p style="font-size:13px;font-weight:700;margin-bottom:8px;">👥 Catégories Employés</p>
+                    <p style="font-size:13px;font-weight:700;margin-bottom:8px;">👔 Catégories Employés</p>
                     <div class="chip-group" id="categoriesContainer"></div>
                     <div class="add-chip-input">
                         <input id="newCategoryInput" placeholder="Nouvelle catégorie">
                         <button onclick="addCategory()">+</button>
                     </div>
                     <hr style="border-color:rgba(255,255,255,0.05);margin:14px 0;">
-                    <button id="resetProductsBtn" class="btn-block btn-gold"><i class="fas fa-undo"></i> Réinitialiser les produits</button>
+                    <button id="resetProductsBtn" class="btn-block btn-gold"><i class="fas fa-undo"></i> Réinitialiser</button>
                 </div>
             </div>
         </div>
 
-        <!-- ===== PAGE: EMPLOYES ===== -->
         <div id="pageEmployes" class="page-content">
             <div class="page-title"><i class="fas fa-user-tie"></i> Employés</div>
             <div class="card-glass">
-                <button id="openEmployeModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter un employé</button>
+                <button id="openEmployeModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
             </div>
             <div class="card-glass">
                 <div class="table-responsive">
@@ -823,11 +866,10 @@
             </div>
         </div>
 
-        <!-- ===== PAGE: FOURNISSEURS ===== -->
         <div id="pageFournisseurs" class="page-content">
             <div class="page-title"><i class="fas fa-truck"></i> Fournisseurs</div>
             <div class="card-glass">
-                <button id="openFournisseurModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter un fournisseur</button>
+                <button id="openFournisseurModal" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
             </div>
             <div class="card-glass">
                 <div class="table-responsive">
@@ -839,11 +881,10 @@
             </div>
         </div>
 
-        <!-- ===== PAGE: USERS ===== -->
         <div id="pageUsers" class="page-content">
             <div class="page-title"><i class="fas fa-users-cog"></i> Utilisateurs</div>
             <div class="card-glass">
-                <button id="openUserModal" class="btn-block btn-primary"><i class="fas fa-user-plus"></i> Ajouter un utilisateur</button>
+                <button id="openUserModal" class="btn-block btn-primary"><i class="fas fa-user-plus"></i> Ajouter</button>
             </div>
             <div class="card-glass">
                 <div class="table-responsive">
@@ -861,104 +902,60 @@
             </div>
         </div>
 
-        <!-- ===== PAGE: ARCHIVE ===== -->
         <div id="pageArchive" class="page-content">
             <div class="page-title"><i class="fas fa-archive"></i> Archive</div>
             <div class="card-glass">
                 <div class="row">
-                    <div class="col half">
-                        <input class="form-control" id="archiveDate" type="date">
-                    </div>
-                    <div class="col half">
-                        <input class="form-control" id="archiveDateEnd" type="date" placeholder="Date fin">
-                    </div>
+                    <div class="col half"><input class="form-control" id="archiveDate" type="date"></div>
+                    <div class="col half"><input class="form-control" id="archiveDateEnd" type="date" placeholder="Date fin"></div>
                 </div>
                 <button id="archiveSearchBtn" class="btn-block btn-primary" style="margin-bottom:8px;"><i class="fas fa-search"></i> Rechercher</button>
-                <button id="archivePrintBtn" class="btn-block btn-gold"><i class="fas fa-file-pdf"></i> 📄 Extraire HTML (A4)</button>
+                <button id="archivePrintBtn" class="btn-block btn-gold"><i class="fas fa-file-code"></i> Extraire HTML</button>
                 <div id="archiveResult" style="margin-top:12px;"></div>
             </div>
         </div>
     </div>
 
-    <!-- ===== BOTTOM NAV ===== -->
     <div class="bottom-nav-wrapper" id="bottomNavWrapper">
         <div class="bottom-nav" id="bottomNav">
-            <button class="nav-item active" data-page="pageDashboard">
-                <i class="fas fa-home"></i>
-                <span>Accueil</span>
-            </button>
-            <button class="nav-item" data-page="pageProduits">
-                <i class="fas fa-box"></i>
-                <span>Produits</span>
-            </button>
-            <button class="nav-item" data-page="pageEntrees">
-                <i class="fas fa-arrow-down"></i>
-                <span>Entrées</span>
-            </button>
-            <button class="nav-item" data-page="pageSorties">
-                <i class="fas fa-arrow-up"></i>
-                <span>Sorties</span>
-            </button>
-            <button class="nav-item" data-page="pageConfig">
-                <i class="fas fa-cog"></i>
-                <span>Config</span>
-            </button>
-            <button class="nav-item" data-page="pageEmployes">
-                <i class="fas fa-user-tie"></i>
-                <span>Employés</span>
-            </button>
-            <button class="nav-item" data-page="pageFournisseurs">
-                <i class="fas fa-truck"></i>
-                <span>Fournisseurs</span>
-            </button>
-            <button class="nav-item" data-page="pageUsers">
-                <i class="fas fa-users-cog"></i>
-                <span>Users</span>
-            </button>
-            <button class="nav-item" data-page="pageArchive">
-                <i class="fas fa-archive"></i>
-                <span>Archive</span>
-            </button>
+            <button class="nav-item active" data-page="pageDashboard"><i class="fas fa-home"></i><span>Accueil</span></button>
+            <button class="nav-item" data-page="pageProduits"><i class="fas fa-box"></i><span>Produits</span></button>
+            <button class="nav-item" data-page="pageAvances"><i class="fas fa-hand-holding-usd"></i><span>Avances</span></button>
+            <button class="nav-item" data-page="pageEntrees"><i class="fas fa-arrow-down"></i><span>Entrées</span></button>
+            <button class="nav-item" data-page="pageSorties"><i class="fas fa-arrow-up"></i><span>Sorties</span></button>
+            <button class="nav-item" data-page="pageConfig"><i class="fas fa-cog"></i><span>Config</span></button>
+            <button class="nav-item" data-page="pageEmployes"><i class="fas fa-user-tie"></i><span>Employés</span></button>
+            <button class="nav-item" data-page="pageFournisseurs"><i class="fas fa-truck"></i><span>Fournisseurs</span></button>
+            <button class="nav-item" data-page="pageUsers"><i class="fas fa-users-cog"></i><span>Users</span></button>
+            <button class="nav-item" data-page="pageArchive"><i class="fas fa-archive"></i><span>Archive</span></button>
         </div>
     </div>
 </div>
 
 <!-- ===== MODALS ===== -->
-<!-- Modal Produit -->
 <div id="modalProduit" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-handle"></div>
-        <div class="modal-title">
-            <i class="fas fa-plus-circle"></i> Nouveau produit
-            <button class="modal-close" onclick="closeModal('modalProduit')">✕</button>
-        </div>
+        <div class="modal-title"><i class="fas fa-plus-circle"></i> Nouveau produit <button class="modal-close" onclick="closeModal('modalProduit')">✕</button></div>
         <input class="form-control" id="pNom" placeholder="Nom du produit *">
         <select class="form-select" id="pSection">
-            <option value="CREPES">🥞 Crêpes</option>
-            <option value="PDJ">🍳 Petit Déjeuner</option>
+            <option value="CREPES">🍣 Crêpes</option>
+            <option value="PDJ">🍆 Petit Déjeuner</option>
             <option value="BAR">🍹 Bar</option>
         </select>
         <input class="form-control" id="pCategorie" placeholder="Catégorie">
         <div class="row">
-            <div class="col half">
-                <select class="form-select" id="pUnite"></select>
-            </div>
-            <div class="col half">
-                <input class="form-control" id="pMinStock" type="number" placeholder="Stock min">
-            </div>
+            <div class="col half"><select class="form-select" id="pUnite"></select></div>
+            <div class="col half"><input class="form-control" id="pMinStock" type="number" placeholder="Stock min"></div>
         </div>
         <button id="addProduitBtn" class="btn-block btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
     </div>
 </div>
 
-<!-- Modal Entrée -->
 <div id="modalEntree" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-handle"></div>
-        <div class="modal-title">
-            <i class="fas fa-plus-circle"></i> Nouvelle entrée
-            <button class="modal-close" onclick="closeModal('modalEntree')">✕</button>
-        </div>
+        <div class="modal-title"><i class="fas fa-plus-circle"></i> Nouvelle entrée <button class="modal-close" onclick="closeModal('modalEntree')">✕</button></div>
         <select class="form-select" id="eProduit"><option value="">Sélectionner un produit *</option></select>
         <input class="form-control" id="eQte" type="number" placeholder="Quantité *">
         <input class="form-control" id="ePrixUnitaire" type="number" placeholder="Prix unitaire">
@@ -969,40 +966,36 @@
     </div>
 </div>
 
-<!-- Modal Sortie -->
 <div id="modalSortie" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-handle"></div>
-        <div class="modal-title">
-            <i class="fas fa-minus-circle"></i> Nouvelle sortie
-            <button class="modal-close" onclick="closeModal('modalSortie')">✕</button>
-        </div>
+        <div class="modal-title"><i class="fas fa-minus-circle"></i> Nouvelle sortie <button class="modal-close" onclick="closeModal('modalSortie')">✕</button></div>
         <select class="form-select" id="sProduit"><option value="">Sélectionner un produit *</option></select>
         <input class="form-control" id="sQte" type="number" placeholder="Quantité *">
-        <select class="form-select" id="sSection">
-            <option value="Cuisine">Cuisine</option>
-            <option value="Bar">Bar</option>
-            <option value="Service">Service</option>
-            <option value="Autre">Autre</option>
-        </select>
+        <select class="form-select" id="sSection"><option value="Cuisine">Cuisine</option><option value="Bar">Bar</option><option value="Service">Service</option><option value="Autre">Autre</option></select>
         <input class="form-control" id="sPersonne" placeholder="Responsable">
         <input class="form-control" id="sNotes" placeholder="Notes">
         <button id="addSortieBtn" class="btn-block btn-secondary"><i class="fas fa-save"></i> Enregistrer</button>
     </div>
 </div>
 
-<!-- Modal Employé -->
+<div id="modalAvance" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <div class="modal-title"><i class="fas fa-hand-holding-usd"></i> Nouvelle avance <button class="modal-close" onclick="closeModal('modalAvance')">✕</button></div>
+        <select class="form-select" id="aProduit"><option value="">Sélectionner un produit *</option></select>
+        <input class="form-control" id="aQte" type="number" placeholder="Quantité *">
+        <input class="form-control" id="aPersonne" placeholder="Responsable">
+        <input class="form-control" id="aNotes" placeholder="Notes">
+        <button id="addAvanceBtn" class="btn-block btn-warning"><i class="fas fa-save"></i> Enregistrer</button>
+    </div>
+</div>
+
 <div id="modalEmploye" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-handle"></div>
-        <div class="modal-title">
-            <i class="fas fa-user-plus"></i> Ajouter un employé
-            <button class="modal-close" onclick="closeModal('modalEmploye')">✕</button>
-        </div>
-        <div class="row">
-            <div class="col half"><input class="form-control" id="empNom" placeholder="Nom *"></div>
-            <div class="col half"><input class="form-control" id="empPrenom" placeholder="Prénom"></div>
-        </div>
+        <div class="modal-title"><i class="fas fa-user-plus"></i> Ajouter employé <button class="modal-close" onclick="closeModal('modalEmploye')">✕</button></div>
+        <div class="row"><div class="col half"><input class="form-control" id="empNom" placeholder="Nom *"></div><div class="col half"><input class="form-control" id="empPrenom" placeholder="Prénom"></div></div>
         <input class="form-control" id="empCin" placeholder="CIN">
         <input class="form-control" id="empTel" placeholder="Téléphone">
         <input class="form-control" id="empWhatsapp" placeholder="WhatsApp">
@@ -1014,14 +1007,10 @@
     </div>
 </div>
 
-<!-- Modal Fournisseur -->
 <div id="modalFournisseur" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-handle"></div>
-        <div class="modal-title">
-            <i class="fas fa-truck"></i> Ajouter un fournisseur
-            <button class="modal-close" onclick="closeModal('modalFournisseur')">✕</button>
-        </div>
+        <div class="modal-title"><i class="fas fa-truck"></i> Ajouter fournisseur <button class="modal-close" onclick="closeModal('modalFournisseur')">✕</button></div>
         <input class="form-control" id="fNom" placeholder="Nom *">
         <input class="form-control" id="fTel" placeholder="Téléphone">
         <input class="form-control" id="fWhatsapp" placeholder="WhatsApp">
@@ -1031,39 +1020,40 @@
     </div>
 </div>
 
-<!-- Modal Utilisateur -->
 <div id="modalUser" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-handle"></div>
-        <div class="modal-title">
-            <i class="fas fa-user-plus"></i> Ajouter un utilisateur
-            <button class="modal-close" onclick="closeModal('modalUser')">✕</button>
-        </div>
+        <div class="modal-title"><i class="fas fa-user-plus"></i> Ajouter utilisateur <button class="modal-close" onclick="closeModal('modalUser')">✕</button></div>
         <input class="form-control" id="newUsername" placeholder="Nom d'utilisateur *">
         <input class="form-control" id="newPassword" type="password" placeholder="Mot de passe *">
-        <select class="form-select" id="newRole">
-            <option value="Admin">Admin</option>
-            <option value="Manager">Manager</option>
-            <option value="Employee">Employee</option>
-            <option value="Viewer">Viewer</option>
-        </select>
+        <select class="form-select" id="newRole"><option value="Admin">Admin</option><option value="Manager">Manager</option><option value="Employee">Employee</option><option value="Viewer">Viewer</option></select>
         <button id="addUserBtn" class="btn-block btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
     </div>
 </div>
 
-<!-- Modal Détails -->
 <div id="modalDetails" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-handle"></div>
-        <div class="modal-title">
-            <i class="fas fa-info-circle"></i> <span id="detailTitle">Détails</span>
-            <button class="modal-close" onclick="closeModal('modalDetails')">✕</button>
-        </div>
+        <div class="modal-title"><i class="fas fa-info-circle"></i> <span id="detailTitle">Détails</span> <button class="modal-close" onclick="closeModal('modalDetails')">✕</button></div>
         <div id="detailContent"></div>
     </div>
 </div>
 
-<!-- ===== PRINT CONTENT HIDDEN ===== -->
+<div id="modalCodeHtml" class="modal-overlay">
+    <div class="modal-content wide">
+        <div class="modal-handle"></div>
+        <div class="modal-title"><i class="fas fa-code"></i> Code HTML <button class="modal-close" onclick="closeModal('modalCodeHtml')">✕</button></div>
+        <div>
+            <div class="code-actions">
+                <button id="copyCodeBtn" class="btn-block btn-success"><i class="fas fa-copy"></i> 📋 Copier</button>
+                <button id="printCodeBtn" class="btn-block btn-secondary"><i class="fas fa-print"></i> 🖨️ Imprimer</button>
+            </div>
+            <textarea id="codeHtmlContent" readonly></textarea>
+            <div class="code-footer"><span id="charCount">0 caractères</span><span>📋 Prêt à copier</span></div>
+        </div>
+    </div>
+</div>
+
 <div id="printContent" style="display:none;"></div>
 
 <script type="importmap">
@@ -1092,56 +1082,53 @@
 
     const entreesRef = collection(db, "entrees");
     const sortiesRef = collection(db, "sorties");
+    const avancesRef = collection(db, "avances");
     const produitsRef = collection(db, "produits");
     const employesRef = collection(db, "employes");
     const fournisseursRef = collection(db, "fournisseurs");
     const usersRef = collection(db, "users");
     const unitsRef = collection(db, "units");
     const categoriesRef = collection(db, "categories");
+    const sectionsRef = collection(db, "sections");
 
-    // ===== DEFAULT PRODUCTS DATA =====
-    const defaultProducts = {
-        "CREPES": {
-            "LEGUMES ET FRUITS": ["FRAMBOISE", "MYRTILLE", "MURE", "BANANE", "POMME", "TOMATE CERISE", "CONCOMBRE", "LAITUE", "MAIS", "KIWI", "ANANAS", "AVOCAT", "FRAISE", "MANGUE", "CHAMPIGNON"],
-            "BISCUIT & CONFISERIES": ["MARIA", "CIGARE", "OREO", "LOTUS", "M&M'S", "KITKAT", "KINDER", "MARSHMELLO"],
-            "CREMES": ["NUTELLA", "CREME LOTUS", "CREME PISTACHE", "CREME KUNAFA PISTACHE", "CREME GIANDUJA", "CREME CHANTILLE", "CREME FRAICHE", "CREME CHOCOLAT BLANC"],
-            "FRUITS SEC": ["PISTACHE ENTIER", "AMANDE EFFILE"],
-            "EPICERIE": ["FARINE PATISSERIE", "BEURRE SPECIAL", "HUILE DE TABLE", "VANILLE POUDRE", "LEVURE CHIMIQUE", "EAU DE FLEUR D'ORANGE", "SWEETIES", "FARINE", "LAIT", "ŒUF", "SUCRE GLACE", "SIROP", "MIEL", "CONFITURE", "AMLOU", "KUNAFA", "MARSHMELLO", "VANILLE SACHET", "LOTUS BISCUIT", "SUCRE"],
-            "VIANDES & FROMAGE": ["POULET", "VIANDE HACHEE", "CHARCUTERIE", "THON", "CREVETTE", "CALAMAR", "SAUCE FROMAGERE", "MOZARELLE", "FROMAGE ROUGE", "CHEDDAR", "SAUCE TOMATE"],
-            "TOPPING": ["CHOCOLAT", "FRAISE", "VANILLE", "CARAMEL", "VERMISSILLE CHOCOLAT", "VERMISSELES COULEURE", "CHOCOLAT BALLS", "PEPITES CHOCOLAT"],
-            "COLORANTS ET DECO": ["FEUILLES D'OR", "FEUILLES BRONZE", "FEUILLES ARGENTES", "FLEURS COMESTIBLE", "LES ETIGES"],
-            "VIENNOISERIE": ["GATEAU MAROCAIN", "CROISSANT GRAND", "CROISSANT"]
+    // ===== DEFAULT DATA =====
+    let sectionsData = {
+        'CREPES': {
+            label: '🍣 Crêpes',
+            categories: {
+                'LEGUMES ET FRUITS': ['FRAMBOISE', 'MYRTILLE', 'MURE', 'BANANE', 'POMME', 'TOMATE CERISE'],
+                'BISCUIT & CONFISERIES': ['MARIA', 'CIGARE', 'OREO', 'LOTUS', 'M&M\'S'],
+                'CREMES': ['NUTELLA', 'CREME LOTUS', 'CREME PISTACHE', 'CREME GIANDUJA']
+            }
         },
-        "PDJ": {
-            "LEGUMES ET FRUITS": ["TOMATE", "TOMATE CERISE", "POMME DE TERRE", "BETTRAVE", "LAITUE", "LAITUE LOLO", "CONCOMBRE", "ROQUETTE", "SIBOULETTE", "KIWI", "FRAMBOISE", "MERTYL", "BANANE", "ANANAS", "MANGUE", "CITRON", "CHAMPIGNON", "AVOCAT"],
-            "FRUITS SECS": ["AMANDES EFFILLE", "NOIX", "RAISINS"],
-            "VENOISERIE": ["PAIN COMPLET MINI", "BAGUETTE NORMAL", "SOIREE", "PETIT PAIN", "PAIN BUSSE", "CHNECK", "CROISSANT GRAND", "GATEAU MAROCAIN"],
-            "PRODUITS LAITIERES": ["EDAM", "MOZARELLE", "CHEDDAR", "BEURRE (centrale)", "JBEN", "DANONE TENDRE", "LAIT"],
-            "EPICERIE": ["HUILE D'OLIVE", "HUILE VEGETALE", "AMLOU", "OLIVES NOIRES", "S.BALNCHE SUCREE", "CONFITURE", "MIEL", "NUTELLA", "OEUFS", "TORTILLA", "PAIN DEMI", "POTATO", "GRAINES DE LIN", "GRAINS DE CHIA", "FLOCON D'AVOINE", "LEVURE", "VANILLE (ALSA)", "HARICOT ROUGE", "SUCRE SANIDA", "FROMAGE CHEDDAR", "CHOCOLAT NOIR/blanc", "sweeties", "khli3", "TCHICHA", "CORNFLAKES"],
-            "VIANDES & POISSONS": ["DINDE", "CHARCUTERIE", "SAUMON FUME", "CREVETTES ROSES", "THON"],
-            "EPICES": ["SEL", "POIVRE", "PAPRIKA", "CURCUMA", "CUMIN", "CANELLE", "GINGEMBRE", "THYM"]
+        'PDJ': {
+            label: '🍆 Petit Déjeuner',
+            categories: {
+                'LEGUMES ET FRUITS': ['TOMATE', 'CONCOMBRE', 'AVOCAT', 'BANANE'],
+                'VENOISERIE': ['PAIN COMPLET', 'CROISSANT', 'BAGUETTE'],
+                'EPICERIE': ['MIEL', 'CONFITURE', 'OEUFS', 'HUILE D\'OLIVE']
+            }
         },
-        "BAR": {
-            "FRUITS": ["ORANGE", "CITRON", "ANANAS", "MANGUE", "KIWI", "FRAISE", "FROMBOISE", "MERTIL", "POMME", "BANANE", "AVOCAT", "GENGEMBRE", "MENTHE", "CHIBA"],
-            "SIROP": ["SIROP CARAMEL", "SIROP NOISETTE", "SIROP CHOCOLAT", "SIROP VANILLE", "SIROP MOJITO", "SIROP CITRON", "SIROP TRIPLE SEC", "SIROP BLEU", "SIROP FRAISE", "SIROP MENTH", "SIROP GRENADINE", "SIROP KIWI", "SIROP ANANAS", "SIROP POMME VERRT", "ICE THE CITRON", "ICE THE PECHE", "ICE THE FRAMBOISE", "BUBBLE BLUEBERRY", "BUBBLE FRAISE", "BUBBLE FRUITS PS", "BUBBLE MANGUE", "BUBBLE CITRON"],
-            "PRODUITS LAITIERES": ["LAIT UHT", "DANONE TENDRE", "NESTLET LAIT", "NESTLET CARAMEL", "HOLALA"],
-            "FRUITS SEC": ["AMANDE", "AMANDE EFILEE", "NOIX", "CAJOU", "NOISETTE", "PISTACHE", "RAISINS", "DATTES"],
-            "EPICERIE": ["SUCRE THE", "SUCRE CAFE", "THE", "VERVIENNE", "3CHUB ATAY", "LIPTON", "MIEL", "CANNEL", "CANNEL POUDRE", "CHOCO NESQUIK", "SANIDA", "LOTUS", "OREO", "KITKAT", "SIGAR", "SWWETISES", "LES ETIGES", "VERVIENNE SACHET", "RED BULL", "MATCHA", "NECTARIE ANANAS", "NECTARIE MANGUE"],
-            "CAFE": ["NESPRESSO", "CAFECITA", "CAFE LAVARINE", "VANILLA CHAI", "SPICED CHAI", "CHOCOLAT DARK", "CHOCO FONDU", "CHOCO BLANC", "MEC3 PISTACHE", "CHOCO", "CARAMEL", "SQUIZE COCO", "SQUIZE ANANAS", "SQUIZE MANGUE", "SQUIZE PASSION", "SQUIZE BLUE BERRY", "SQUIZE FRAISE", "SQUIZE CITRON", "FRAPE CHOCO", "FRAPE CARAMEL", "FRAPE VANILLE", "FRAPE FRAISE"],
-            "EAU ET SODA": ["33CL", "50CL", "75CL", "HAWAI", "POM'S", "COCA", "COCA ZERO", "SPRITE", "OULMES", "ORANGINE", "SPRITE 1L", "SHWEPPS CITRON", "SHWEPPS TONIC"]
+        'BAR': {
+            label: '🍹 Bar',
+            categories: {
+                'FRUITS': ['ORANGE', 'CITRON', 'ANANAS', 'MANGUE'],
+                'SIROP': ['SIROP CARAMEL', 'SIROP VANILLE', 'SIROP MOJITO'],
+                'EAU ET SODA': ['COCA', 'SPRITE', 'SHWEPPS']
+            }
         }
     };
 
     let currentUser = { username: "admin", role: "Admin" };
-    let currentLang = "fr";
     let isConfigUnlocked = false;
     let allUsers = [];
-    let allProduits = [];
     let allEntrees = [];
     let allSorties = [];
-    let unitsList = ['Kg', 'Litre', 'Pièce', 'Pack', 'Carton', 'Boîte', 'Sachet'];
-    let categoriesList = ['Chef', 'Cuisinier', 'Barista', 'Serveur', 'Manager', 'Pâtissier'];
+    let allAvances = [];
+    let unitsList = ['Kg', 'Litre', 'Pièce', 'Pack', 'Carton', 'Boîte'];
+    let categoriesList = ['Chef', 'Cuisinier', 'Barista', 'Serveur', 'Manager'];
     let isViewer = false;
+    let lastArchiveResult = [];
 
     // ===== DOM REFS =====
     const loginPage = document.getElementById('loginPage');
@@ -1197,33 +1184,53 @@
     // ===== CALCULATE STOCK =====
     function calculateStock() {
         const stockMap = {};
-        allProduits.forEach(p => {
-            stockMap[p.nom] = {
-                nom: p.nom,
-                categorie: p.categorie,
-                section: p.section,
-                unite: p.unite,
-                stockMin: p.stockMin || 0,
-                entrees: 0,
-                sorties: 0,
-                stockActuel: 0
-            };
+        
+        // Initialize all products
+        Object.values(sectionsData).forEach(section => {
+            Object.entries(section.categories).forEach(([category, products]) => {
+                products.forEach(product => {
+                    stockMap[product] = {
+                        nom: product,
+                        categorie: category,
+                        section: Object.keys(sectionsData).find(key => sectionsData[key] === section) || '',
+                        unite: 'Pièce',
+                        stockMin: 2,
+                        entrees: 0,
+                        sorties: 0,
+                        avances: 0,
+                        stockActuel: 0
+                    };
+                });
+            });
         });
+        
+        // Add entries
         allEntrees.forEach(e => {
             if (stockMap[e.nom]) {
                 stockMap[e.nom].entrees += e.qte || 0;
             }
         });
+        
+        // Add sorties
         allSorties.forEach(s => {
             if (stockMap[s.nom]) {
                 stockMap[s.nom].sorties += s.qte || 0;
             }
         });
+        
+        // Add avances
+        allAvances.forEach(a => {
+            if (stockMap[a.nom]) {
+                stockMap[a.nom].avances += a.qte || 0;
+            }
+        });
+        
+        // Calculate stock: entrées - sorties - avances
         Object.keys(stockMap).forEach(key => {
             const s = stockMap[key];
-            s.stockActuel = s.entrees - s.sorties;
-            if (s.stockActuel < 0) s.stockActuel = 0;
+            s.stockActuel = s.entrees - s.sorties - s.avances;
         });
+        
         return stockMap;
     }
 
@@ -1233,29 +1240,51 @@
         const alertsList = document.getElementById('alertsList');
         alertsList.innerHTML = '';
         let alertCount = 0;
-        Object.values(stockMap).forEach(stock => {
-            if (stock.stockActuel <= 0) {
+        let avanceCount = 0;
+        
+        const sortedProducts = Object.values(stockMap).sort((a, b) => a.nom.localeCompare(b.nom));
+        
+        sortedProducts.forEach(stock => {
+            if (stock.stockActuel < 0) {
+                avanceCount++;
+                const alertItem = document.createElement('div');
+                alertItem.className = 'alert-item avance';
+                alertItem.innerHTML = `
+                    <div class="alert-info"><div class="alert-icon"><i class="fas fa-hand-holding-usd"></i></div><div class="alert-text">${stock.nom}</div></div>
+                    <div class="alert-badge">${Math.abs(stock.stockActuel)} en avance</div>
+                `;
+                alertsList.appendChild(alertItem);
+            } else if (stock.stockActuel <= 0) {
                 alertCount++;
                 const alertItem = document.createElement('div');
                 alertItem.className = 'alert-item danger';
-                alertItem.innerHTML = `<div class="alert-info"><div class="alert-icon"><i class="fas fa-times-circle"></i></div><div class="alert-text">${stock.nom}</div></div><div class="alert-badge">0 ${stock.unite}</div>`;
+                alertItem.innerHTML = `
+                    <div class="alert-info"><div class="alert-icon"><i class="fas fa-times-circle"></i></div><div class="alert-text">${stock.nom}</div></div>
+                    <div class="alert-badge">Rupture</div>
+                `;
                 alertsList.appendChild(alertItem);
             } else if (stock.stockActuel <= stock.stockMin) {
                 alertCount++;
                 const alertItem = document.createElement('div');
                 alertItem.className = 'alert-item';
-                alertItem.innerHTML = `<div class="alert-info"><div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="alert-text">${stock.nom}</div></div><div class="alert-badge">${stock.stockActuel} ${stock.unite}</div>`;
+                alertItem.innerHTML = `
+                    <div class="alert-info"><div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div><div class="alert-text">${stock.nom}</div></div>
+                    <div class="alert-badge">${stock.stockActuel}</div>
+                `;
                 alertsList.appendChild(alertItem);
             }
         });
+        
         document.getElementById('statAlert').textContent = alertCount;
+        document.getElementById('statAvances').textContent = avanceCount;
+        
         const configNav = document.querySelector('.nav-item[data-page="pageDashboard"]');
         const existingBadge = configNav.querySelector('.nav-badge');
         if (existingBadge) existingBadge.remove();
-        if (alertCount > 0) {
+        if (alertCount + avanceCount > 0) {
             const badge = document.createElement('span');
             badge.className = 'nav-badge';
-            badge.textContent = alertCount;
+            badge.textContent = alertCount + avanceCount;
             configNav.appendChild(badge);
         }
     }
@@ -1265,20 +1294,44 @@
         const stockMap = calculateStock();
         const tbody = document.getElementById('tbodyStockSummary');
         tbody.innerHTML = '';
-        Object.values(stockMap).forEach(stock => {
+        
+        const sortedProducts = Object.values(stockMap).sort((a, b) => a.nom.localeCompare(b.nom));
+        
+        sortedProducts.forEach(stock => {
             const tr = document.createElement('tr');
             let statusClass = 'stock-ok';
             let statusText = 'Normal';
             let statusBadge = 'badge-success';
-            if (stock.stockActuel <= 0) { statusClass = 'stock-out'; statusText = 'Rupture'; statusBadge = 'badge-danger'; }
-            else if (stock.stockActuel <= stock.stockMin) { statusClass = 'stock-low'; statusText = 'Faible'; statusBadge = 'badge-warning'; }
-            const sectionBadge = stock.section === 'CREPES' ? 'badge-crepes' : stock.section === 'PDJ' ? 'badge-pdj' : 'badge-bar';
+            
+            if (stock.stockActuel < 0) {
+                statusClass = 'stock-avance';
+                statusText = 'En avance';
+                statusBadge = 'badge-avance';
+            } else if (stock.stockActuel <= 0) {
+                statusClass = 'stock-out';
+                statusText = 'Rupture';
+                statusBadge = 'badge-danger';
+            } else if (stock.stockActuel <= stock.stockMin) {
+                statusClass = 'stock-low';
+                statusText = 'Faible';
+                statusBadge = 'badge-warning';
+            }
+            
+            const sectionBadge = stock.section === 'CREPES' ? 'badge-crepes' : 
+                                stock.section === 'PDJ' ? 'badge-pdj' : 
+                                stock.section === 'BAR' ? 'badge-bar' : 'badge-info';
+            const sectionIcon = stock.section === 'CREPES' ? '🍣' : 
+                                stock.section === 'PDJ' ? '🍆' : 
+                                stock.section === 'BAR' ? '🍹' : '📦';
+            
             tr.innerHTML = `
                 <td><span class="stock-indicator ${statusClass}"></span>${stock.nom}</td>
-                <td><span class="badge ${sectionBadge}">${stock.section || '-'}</span></td>
+                <td><span class="badge ${sectionBadge}">${sectionIcon} ${stock.section || '-'}</span></td>
                 <td>${stock.categorie || '-'}</td>
+                <td><strong>${stock.entrees}</strong></td>
+                <td><strong>${stock.sorties}</strong></td>
+                <td><strong style="color:var(--warning)">${stock.avances}</strong></td>
                 <td><strong>${stock.stockActuel}</strong></td>
-                <td>${stock.stockMin}</td>
                 <td><span class="badge ${statusBadge}">${statusText}</span></td>
             `;
             tbody.appendChild(tr);
@@ -1306,7 +1359,6 @@
             });
             if (unitsList.includes(currentVal)) select.value = currentVal;
         });
-        saveUnitsToFirebase();
     }
     window.addUnit = function() {
         const input = document.getElementById('newUnitInput');
@@ -1328,16 +1380,6 @@
         updateUnitsUI();
         toast("Unité supprimée");
     };
-    async function saveUnitsToFirebase() {
-        const snap = await getDocs(unitsRef);
-        if (!snap.empty) { const docId = snap.docs[0].id; await updateDoc(doc(db, "units", docId), { units: unitsList }); }
-        else { await addDoc(unitsRef, { units: unitsList }); }
-    }
-    async function loadUnitsFromFirebase() {
-        const snap = await getDocs(unitsRef);
-        if (!snap.empty) { const data = snap.docs[0].data(); if (data.units && data.units.length > 0) unitsList = data.units; }
-        updateUnitsUI();
-    }
 
     // ===== CATEGORIES MANAGEMENT =====
     function updateCategoriesUI() {
@@ -1360,7 +1402,6 @@
             });
             if (categoriesList.includes(currentVal)) select.value = currentVal;
         });
-        saveCategoriesToFirebase();
     }
     window.addCategory = function() {
         const input = document.getElementById('newCategoryInput');
@@ -1382,97 +1423,211 @@
         updateCategoriesUI();
         toast("Catégorie supprimée");
     };
-    async function saveCategoriesToFirebase() {
-        const snap = await getDocs(categoriesRef);
-        if (!snap.empty) { const docId = snap.docs[0].id; await updateDoc(doc(db, "categories", docId), { categories: categoriesList }); }
-        else { await addDoc(categoriesRef, { categories: categoriesList }); }
-    }
-    async function loadCategoriesFromFirebase() {
-        const snap = await getDocs(categoriesRef);
-        if (!snap.empty) { const data = snap.docs[0].data(); if (data.categories && data.categories.length > 0) categoriesList = data.categories; }
-        updateCategoriesUI();
-    }
 
     // ===== PRODUITS SELECT UPDATE =====
     function updateProduitsSelect() {
+        const allProducts = [];
+        Object.values(sectionsData).forEach(section => {
+            Object.values(section.categories).forEach(products => {
+                products.forEach(p => allProducts.push(p));
+            });
+        });
+        allProducts.sort((a, b) => a.localeCompare(b));
+        
         document.querySelectorAll('select[id$="Produit"]').forEach(select => {
             const currentVal = select.value;
             select.innerHTML = `<option value="">Sélectionner un produit *</option>`;
-            allProduits.forEach(p => {
+            allProducts.forEach(p => {
                 const opt = document.createElement('option');
-                opt.value = p.nom;
-                const sectionIcon = p.section === 'CREPES' ? '🥞' : p.section === 'PDJ' ? '🍳' : '🍹';
-                opt.textContent = `${sectionIcon} ${p.nom} (${p.unite || ''})`;
+                opt.value = p;
+                opt.textContent = p;
                 select.appendChild(opt);
             });
-            if (currentVal) select.value = currentVal;
+            if (currentVal && allProducts.includes(currentVal)) select.value = currentVal;
         });
     }
 
-    // ===== FILTER PRODUCTS =====
-    function filterProducts() {
-        const sectionFilter = document.getElementById('filterSection').value;
-        const categoryFilter = document.getElementById('filterCategory').value;
-        const tbody = document.getElementById('tbodyProduits');
-        const rows = tbody.querySelectorAll('tr');
-        rows.forEach(row => {
-            const section = row.dataset.section || '';
-            const category = row.dataset.category || '';
-            let show = true;
-            if (sectionFilter !== 'all' && section !== sectionFilter) show = false;
-            if (categoryFilter !== 'all' && category !== categoryFilter) show = false;
-            row.style.display = show ? '' : 'none';
+    // ===== SECTIONS MANAGEMENT =====
+    function renderSections() {
+        const container = document.getElementById('sectionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        const addSectionBtn = document.createElement('button');
+        addSectionBtn.className = 'btn-block btn-primary';
+        addSectionBtn.style.marginBottom = '12px';
+        addSectionBtn.innerHTML = '<i class="fas fa-folder-plus"></i> Ajouter une section';
+        addSectionBtn.addEventListener('click', () => {
+            if (isViewer) { toast("Permission refusée", 'error'); return; }
+            const sectionName = prompt('🔤 Nom de la nouvelle section:');
+            if (!sectionName) return;
+            const sectionKey = sectionName.toUpperCase().replace(/[^A-Z]/g, '_');
+            if (sectionsData[sectionKey]) { toast("Cette section existe déjà!", 'error'); return; }
+            sectionsData[sectionKey] = { label: sectionName, categories: {} };
+            saveSectionsToFirebase();
+            renderSections();
+            toast(`✅ Section "${sectionName}" ajoutée !`);
         });
-    }
-
-    // ===== UPDATE CATEGORY FILTER =====
-    function updateCategoryFilter() {
-        const select = document.getElementById('filterCategory');
-        const section = document.getElementById('filterSection').value;
-        select.innerHTML = '<option value="all">Toutes catégories</option>';
-        const categories = new Set();
-        allProduits.forEach(p => {
-            if (section === 'all' || p.section === section) {
-                if (p.categorie) categories.add(p.categorie);
+        container.appendChild(addSectionBtn);
+        
+        const sortedSections = Object.keys(sectionsData).sort();
+        sortedSections.forEach(sectionKey => {
+            const section = sectionsData[sectionKey];
+            const sectionCard = document.createElement('div');
+            sectionCard.className = 'section-card';
+            
+            const headerHtml = `
+                <div class="section-header">
+                    <h3>${section.label}</h3>
+                    <div class="section-actions">
+                        <button class="btn-sm btn-sm-success" onclick="addCategoryToSection('${sectionKey}')"><i class="fas fa-folder-plus"></i> Catégorie</button>
+                        <button class="btn-sm btn-sm-danger" onclick="removeSection('${sectionKey}')"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
+            sectionCard.innerHTML = headerHtml;
+            
+            const categoryContainer = document.createElement('div');
+            categoryContainer.className = 'category-container';
+            
+            const sortedCategories = Object.keys(section.categories).sort();
+            sortedCategories.forEach(categoryKey => {
+                const products = section.categories[categoryKey];
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'category-item';
+                
+                const sortedProducts = [...products].sort((a, b) => a.localeCompare(b));
+                let productsHtml = sortedProducts.map((product, idx) => {
+                    const realIdx = products.indexOf(product);
+                    return `<span class="product-item">${product} <span class="remove" onclick="removeProduct('${sectionKey}', '${categoryKey}', ${realIdx})">✕</span></span>`;
+                }).join('');
+                
+                categoryItem.innerHTML = `
+                    <div style="display:flex;flex-direction:column;gap:6px;width:100%;">
+                        <div class="category-header">
+                            <div class="category-name"><i class="fas fa-folder" style="color:var(--gold);font-size:13px;"></i> ${categoryKey} <span class="badge badge-info">${products.length}</span></div>
+                            <div class="section-actions">
+                                <button class="btn-sm btn-sm-primary" onclick="addProductToCategory('${sectionKey}', '${categoryKey}')"><i class="fas fa-plus"></i> Produit</button>
+                                <button class="btn-sm btn-sm-danger" onclick="removeCategory('${sectionKey}', '${categoryKey}')"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="products-grid">${productsHtml || '<span style="font-size:11px;opacity:0.4;">Aucun produit</span>'}</div>
+                    </div>
+                `;
+                categoryContainer.appendChild(categoryItem);
+            });
+            
+            if (Object.keys(section.categories).length === 0) {
+                const emptyMsg = document.createElement('div');
+                emptyMsg.style.cssText = 'padding:12px;text-align:center;opacity:0.4;font-size:12px;';
+                emptyMsg.textContent = '📂 Aucune catégorie. Cliquez sur "Catégorie" pour en ajouter.';
+                categoryContainer.appendChild(emptyMsg);
             }
+            
+            sectionCard.appendChild(categoryContainer);
+            container.appendChild(sectionCard);
         });
-        categories.forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            select.appendChild(opt);
-        });
+        updateProduitsSelect();
+    }
+
+    window.addCategoryToSection = function(sectionKey) {
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        if (!sectionsData[sectionKey]) { toast("Section introuvable", 'error'); return; }
+        const categoryName = prompt(`📂 Nom de la catégorie pour "${sectionsData[sectionKey].label}":`);
+        if (!categoryName) return;
+        const categoryKey = categoryName.toUpperCase().replace(/[^A-Z]/g, '_');
+        if (sectionsData[sectionKey].categories[categoryKey]) { toast("Cette catégorie existe déjà!", 'error'); return; }
+        sectionsData[sectionKey].categories[categoryKey] = [];
+        saveSectionsToFirebase();
+        renderSections();
+        toast(`✅ Catégorie "${categoryName}" ajoutée !`);
+    };
+
+    window.addProductToCategory = function(sectionKey, categoryKey) {
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        if (!sectionsData[sectionKey] || !sectionsData[sectionKey].categories[categoryKey]) {
+            toast("Section ou catégorie introuvable", 'error');
+            return;
+        }
+        const productName = prompt(`📦 Nom du produit pour "${categoryKey}":`);
+        if (!productName) return;
+        sectionsData[sectionKey].categories[categoryKey].push(productName);
+        saveSectionsToFirebase();
+        renderSections();
+        toast(`✅ Produit "${productName}" ajouté !`);
+    };
+
+    window.removeProduct = function(sectionKey, categoryKey, productIndex) {
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        if (!sectionsData[sectionKey] || !sectionsData[sectionKey].categories[categoryKey]) return;
+        const productName = sectionsData[sectionKey].categories[categoryKey][productIndex];
+        if (!confirm(`❌ Supprimer "${productName}" ?`)) return;
+        sectionsData[sectionKey].categories[categoryKey].splice(productIndex, 1);
+        saveSectionsToFirebase();
+        renderSections();
+        toast("🗑️ Produit supprimé !");
+    };
+
+    window.removeCategory = function(sectionKey, categoryKey) {
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        if (!sectionsData[sectionKey] || !sectionsData[sectionKey].categories[categoryKey]) return;
+        const count = sectionsData[sectionKey].categories[categoryKey].length;
+        if (!confirm(`❌ Supprimer la catégorie "${categoryKey}" et ses ${count} produits ?`)) return;
+        delete sectionsData[sectionKey].categories[categoryKey];
+        saveSectionsToFirebase();
+        renderSections();
+        toast("🗑️ Catégorie supprimée !");
+    };
+
+    window.removeSection = function(sectionKey) {
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        if (!sectionsData[sectionKey]) return;
+        let totalProducts = 0;
+        Object.values(sectionsData[sectionKey].categories).forEach(cat => totalProducts += cat.length);
+        if (!confirm(`❌ Supprimer la section "${sectionsData[sectionKey].label}" avec ${totalProducts} produits ?`)) return;
+        delete sectionsData[sectionKey];
+        saveSectionsToFirebase();
+        renderSections();
+        toast("🗑️ Section supprimée !");
+    };
+
+    async function saveSectionsToFirebase() {
+        try {
+            const snap = await getDocs(sectionsRef);
+            if (!snap.empty) {
+                const docId = snap.docs[0].id;
+                await updateDoc(doc(db, "sections", docId), { data: sectionsData });
+            } else {
+                await addDoc(sectionsRef, { data: sectionsData });
+            }
+        } catch (e) { console.error("Erreur sauvegarde sections:", e); }
+    }
+
+    async function loadSectionsFromFirebase() {
+        try {
+            const snap = await getDocs(sectionsRef);
+            if (!snap.empty) {
+                const data = snap.docs[0].data();
+                if (data.data && Object.keys(data.data).length > 0) {
+                    sectionsData = data.data;
+                }
+            }
+            renderSections();
+        } catch (e) { console.error("Erreur chargement sections:", e); renderSections(); }
     }
 
     // ===== RESET PRODUCTS =====
     document.getElementById('resetProductsBtn')?.addEventListener('click', async () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        if (!confirm("⚠️ Réinitialiser tous les produits ? Cette action supprimera tous les produits existants et les remplacera par les produits par défaut.")) return;
-        
-        // Delete all products
-        const snap = await getDocs(produitsRef);
-        for (const doc of snap.docs) {
-            await deleteDoc(doc.ref);
-        }
-        
-        // Add default products
-        let count = 0;
-        for (const [section, categories] of Object.entries(defaultProducts)) {
-            for (const [categorie, items] of Object.entries(categories)) {
-                for (const nom of items) {
-                    await addDoc(produitsRef, {
-                        nom,
-                        section,
-                        categorie,
-                        unite: 'Pièce',
-                        stockMin: 2,
-                        timestamp: Date.now()
-                    });
-                    count++;
-                }
-            }
-        }
-        toast(`${count} produits réinitialisés !`);
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        if (!confirm("⚠️ Réinitialiser tous les produits ?")) return;
+        sectionsData = {
+            'CREPES': { label: '🍣 Crêpes', categories: { 'LEGUMES ET FRUITS': ['FRAMBOISE', 'MYRTILLE', 'MURE'], 'BISCUIT & CONFISERIES': ['MARIA', 'CIGARE', 'OREO'] } },
+            'PDJ': { label: '🍆 Petit Déjeuner', categories: { 'LEGUMES ET FRUITS': ['TOMATE', 'CONCOMBRE'], 'VENOISERIE': ['CROISSANT', 'PAIN COMPLET'] } },
+            'BAR': { label: '🍹 Bar', categories: { 'FRUITS': ['ORANGE', 'CITRON'], 'SIROP': ['SIROP CARAMEL', 'SIROP VANILLE'] } }
+        };
+        await saveSectionsToFirebase();
+        renderSections();
+        toast("✅ Réinitialisé !");
     });
 
     // ===== LOGIN =====
@@ -1499,6 +1654,7 @@
             loginError.textContent = "";
             document.getElementById('userDisplay').textContent = currentUser.username;
             document.getElementById('roleDisplay').textContent = currentUser.role;
+            await loadSectionsFromFirebase();
             loadAllData();
             loadUsers();
             applyPermissions();
@@ -1521,7 +1677,7 @@
         document.querySelectorAll('.btn-block').forEach(btn => {
             if (isViewer && !btn.id.includes('open')) { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
         });
-        document.querySelectorAll('.action-btn.danger, .action-btn.info').forEach(btn => {
+        document.querySelectorAll('.action-btn.danger, .action-btn.info, .action-btn.warning').forEach(btn => {
             if (isViewer) btn.classList.add('disabled');
         });
         if (isViewer) { 
@@ -1548,44 +1704,38 @@
         });
     });
 
-    // ===== FILTER EVENTS =====
-    document.getElementById('filterSection')?.addEventListener('change', () => {
-        updateCategoryFilter();
-        filterProducts();
-    });
-    document.getElementById('filterCategory')?.addEventListener('change', filterProducts);
-
     // ===== MODAL OPENERS =====
-    document.getElementById('openProduitModal')?.addEventListener('click', () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        openModal('modalProduit');
-    });
     document.getElementById('openEntreeModal')?.addEventListener('click', () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         updateProduitsSelect();
         openModal('modalEntree');
     });
     document.getElementById('openSortieModal')?.addEventListener('click', () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         updateProduitsSelect();
         openModal('modalSortie');
     });
+    document.getElementById('openAvanceModal')?.addEventListener('click', () => {
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        updateProduitsSelect();
+        openModal('modalAvance');
+    });
     document.getElementById('openEmployeModal')?.addEventListener('click', () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         openModal('modalEmploye');
     });
     document.getElementById('openFournisseurModal')?.addEventListener('click', () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         openModal('modalFournisseur');
     });
     document.getElementById('openUserModal')?.addEventListener('click', () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         openModal('modalUser');
     });
 
     // ===== CONFIG UNLOCK =====
     document.getElementById('configUnlockBtn')?.addEventListener('click', () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         const pwd = prompt('Mot de passe:');
         if (pwd === '181219') {
             document.getElementById('configPanel').classList.remove('hidden');
@@ -1596,39 +1746,20 @@
         }
     });
 
-    // ===== ADD PRODUIT =====
-    document.getElementById('addProduitBtn')?.addEventListener('click', async () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        const nom = document.getElementById('pNom').value.trim();
-        if (!nom) { toast("Nom requis", 'error'); return; }
-        await addDoc(produitsRef, {
-            nom,
-            section: document.getElementById('pSection').value,
-            categorie: document.getElementById('pCategorie').value.trim(),
-            unite: document.getElementById('pUnite').value,
-            stockMin: parseInt(document.getElementById('pMinStock').value) || 0,
-            timestamp: Date.now()
-        });
-        toast("Produit ajouté !");
-        closeModal('modalProduit');
-        document.getElementById('pNom').value = '';
-        document.getElementById('pCategorie').value = '';
-        document.getElementById('pMinStock').value = '';
-    });
-
     // ===== ADD ENTREE =====
     document.getElementById('addEntreeBtn')?.addEventListener('click', async () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         const produit = document.getElementById('eProduit').value;
         const qte = parseFloat(document.getElementById('eQte').value);
-        if (!produit || !qte) { toast("Produit et quantité requis", 'error'); return; }
-        const produitData = allProduits.find(p => p.nom === produit);
+        if (!produit || !qte || qte <= 0) { toast("Produit et quantité positive requis", 'error'); return; }
+        let section = '', categorie = '';
+        Object.entries(sectionsData).forEach(([secKey, sec]) => {
+            Object.entries(sec.categories).forEach(([catKey, products]) => {
+                if (products.includes(produit)) { section = secKey; categorie = catKey; }
+            });
+        });
         await addDoc(entreesRef, {
-            nom: produit,
-            section: produitData?.section || '',
-            categorie: produitData?.categorie || '',
-            qte,
-            unite: produitData?.unite || '',
+            nom: produit, section, categorie, qte, unite: 'Pièce',
             prixUnitaire: parseFloat(document.getElementById('ePrixUnitaire').value) || 0,
             fournisseur: document.getElementById('eFournisseur').value,
             personne: document.getElementById('ePersonne').value,
@@ -1648,20 +1779,31 @@
 
     // ===== ADD SORTIE =====
     document.getElementById('addSortieBtn')?.addEventListener('click', async () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         const produit = document.getElementById('sProduit').value;
         const qte = parseFloat(document.getElementById('sQte').value);
-        if (!produit || !qte) { toast("Produit et quantité requis", 'error'); return; }
-        const produitData = allProduits.find(p => p.nom === produit);
+        if (!produit || !qte || qte <= 0) { toast("Produit et quantité positive requis", 'error'); return; }
+        let section = '', categorie = '';
+        Object.entries(sectionsData).forEach(([secKey, sec]) => {
+            Object.entries(sec.categories).forEach(([catKey, products]) => {
+                if (products.includes(produit)) { section = secKey; categorie = catKey; }
+            });
+        });
         const stockMap = calculateStock();
         const currentStock = stockMap[produit]?.stockActuel || 0;
-        if (qte > currentStock) { toast(`Stock insuffisant! Disponible: ${currentStock}`, 'error'); return; }
+        if (qte > currentStock) {
+            const avanceQte = qte - currentStock;
+            await addDoc(avancesRef, {
+                nom: produit, qte: avanceQte,
+                personne: document.getElementById('sPersonne').value || 'Système',
+                notes: `Avance auto pour sortie de ${qte} (stock: ${currentStock})`,
+                date: new Date().toLocaleDateString('fr-CA'),
+                timestamp: Date.now()
+            });
+            toast(`⚠️ Avance de ${avanceQte} créée !`, 'warning');
+        }
         await addDoc(sortiesRef, {
-            nom: produit,
-            section: produitData?.section || '',
-            categorie: produitData?.categorie || '',
-            qte,
-            unite: produitData?.unite || '',
+            nom: produit, section, categorie, qte, unite: 'Pièce',
             responsable: document.getElementById('sPersonne').value,
             notes: document.getElementById('sNotes').value,
             date: new Date().toLocaleDateString('fr-CA'),
@@ -1675,14 +1817,34 @@
         document.getElementById('sNotes').value = '';
     });
 
+    // ===== ADD AVANCE =====
+    document.getElementById('addAvanceBtn')?.addEventListener('click', async () => {
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
+        const produit = document.getElementById('aProduit').value;
+        const qte = parseFloat(document.getElementById('aQte').value);
+        if (!produit || !qte || qte <= 0) { toast("Produit et quantité positive requis", 'error'); return; }
+        await addDoc(avancesRef, {
+            nom: produit, qte,
+            personne: document.getElementById('aPersonne').value,
+            notes: document.getElementById('aNotes').value,
+            date: new Date().toLocaleDateString('fr-CA'),
+            timestamp: Date.now()
+        });
+        toast("Avance enregistrée !");
+        closeModal('modalAvance');
+        document.getElementById('aProduit').value = '';
+        document.getElementById('aQte').value = '';
+        document.getElementById('aPersonne').value = '';
+        document.getElementById('aNotes').value = '';
+    });
+
     // ===== ADD EMPLOYE =====
     document.getElementById('addEmployeBtn')?.addEventListener('click', async () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         const nom = document.getElementById('empNom').value.trim();
         if (!nom) { toast("Nom requis", 'error'); return; }
         await addDoc(employesRef, {
-            nom,
-            prenom: document.getElementById('empPrenom').value,
+            nom, prenom: document.getElementById('empPrenom').value,
             cin: document.getElementById('empCin').value,
             tel: document.getElementById('empTel').value,
             whatsapp: document.getElementById('empWhatsapp').value,
@@ -1706,12 +1868,11 @@
 
     // ===== ADD FOURNISSEUR =====
     document.getElementById('addFournisseurBtn')?.addEventListener('click', async () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         const nom = document.getElementById('fNom').value.trim();
         if (!nom) { toast("Nom requis", 'error'); return; }
         await addDoc(fournisseursRef, {
-            nom,
-            tel: document.getElementById('fTel').value,
+            nom, tel: document.getElementById('fTel').value,
             whatsapp: document.getElementById('fWhatsapp').value,
             adresse: document.getElementById('fAdresse').value,
             type: document.getElementById('fType').value,
@@ -1728,7 +1889,7 @@
 
     // ===== ADD USER =====
     document.getElementById('addUserBtn')?.addEventListener('click', async () => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         const username = document.getElementById('newUsername').value.trim();
         const password = document.getElementById('newPassword').value.trim();
         const role = document.getElementById('newRole').value;
@@ -1764,213 +1925,89 @@
     });
 
     // ===== ARCHIVE =====
-    let lastArchiveResult = [];
-
     document.getElementById('archiveSearchBtn')?.addEventListener('click', async () => {
         const dateStart = document.getElementById('archiveDate').value;
         const dateEnd = document.getElementById('archiveDateEnd').value || dateStart;
         if (!dateStart) { toast("Sélectionnez une date", 'error'); return; }
-        
         const q1 = query(entreesRef, where("date", ">=", dateStart));
         const q2 = query(sortiesRef, where("date", ">=", dateStart));
-        const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
-        
+        const q3 = query(avancesRef, where("date", ">=", dateStart));
+        const [snap1, snap2, snap3] = await Promise.all([getDocs(q1), getDocs(q2), getDocs(q3)]);
         let results = [];
         snap1.forEach(d => { const data = d.data(); results.push({ type: 'Entrée', ...data, id: d.id }); });
         snap2.forEach(d => { const data = d.data(); results.push({ type: 'Sortie', ...data, id: d.id }); });
-        
-        if (dateEnd) {
-            results = results.filter(r => r.date <= dateEnd);
-        }
+        snap3.forEach(d => { const data = d.data(); results.push({ type: 'Avance', ...data, id: d.id }); });
+        if (dateEnd) { results = results.filter(r => r.date <= dateEnd); }
         results.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
         lastArchiveResult = results;
-        
         let html = `<div style="background:var(--glass);border-radius:14px;padding:14px;border:1px solid var(--glass-border);">
-            <p style="font-weight:600;color:var(--gold);font-size:13px;margin-bottom:6px;">📊 ${dateStart} ${dateEnd ? '→ ' + dateEnd : ''}</p>
+            <p style="font-weight:600;color:var(--gold);font-size:13px;margin-bottom:6px;">📅 ${dateStart} ${dateEnd ? '→ ' + dateEnd : ''}</p>
             <p style="font-size:12px;margin-bottom:10px;">Total: ${results.length} enregistrements</p>`;
-        
         if (results.length > 0) {
-            html += `<div class="table-responsive"><table><thead><tr>
-                <th>Type</th>
-                <th>Produit</th>
-                <th>Section</th>
-                <th>Catégorie</th>
-                <th>Qte</th>
-                <th>Unité</th>
-                <th>Date</th>
-                <th>Responsable</th>
-                <th>Notes</th>
-            </tr></thead><tbody>`;
+            html += `<div class="table-responsive"><table><thead><tr><th>Type</th><th>Produit</th><th>Section</th><th>Qte</th><th>Date</th><th>Responsable</th><th>Notes</th></tr></thead><tbody>`;
             results.forEach(r => {
-                const sectionIcon = r.section === 'CREPES' ? '🥞' : r.section === 'PDJ' ? '🍳' : '🍹';
-                const typeColor = r.type === 'Entrée' ? 'success' : 'danger';
-                html += `<tr>
-                    <td><span class="badge badge-${typeColor}">${r.type === 'Entrée' ? 'E' : 'S'}</span></td>
-                    <td>${r.nom || ''}</td>
-                    <td>${sectionIcon} ${r.section || ''}</td>
-                    <td>${r.categorie || ''}</td>
-                    <td><strong>${r.qte || 0}</strong></td>
-                    <td>${r.unite || ''}</td>
-                    <td>${r.date || ''}</td>
-                    <td>${r.personne || r.responsable || ''}</td>
-                    <td style="font-size:10px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.notes || ''}</td>
-                </tr>`;
+                const typeColor = r.type === 'Entrée' ? 'success' : r.type === 'Sortie' ? 'danger' : 'warning';
+                html += `<tr><td><span class="badge badge-${typeColor}">${r.type}</span></td><td>${r.nom || ''}</td><td>${r.section || ''}</td><td><strong>${r.qte || 0}</strong></td><td>${r.date || ''}</td><td>${r.personne || r.responsable || ''}</td><td style="font-size:10px;">${r.notes || ''}</td></tr>`;
             });
             html += `</tbody></table></div>`;
-        } else {
-            html += `<p style="opacity:0.6;font-size:12px;">Aucune donnée pour cette période</p>`;
-        }
+        } else { html += `<p style="opacity:0.6;font-size:12px;">Aucune donnée</p>`; }
         html += `</div>`;
         document.getElementById('archiveResult').innerHTML = html;
     });
 
     // ===== PRINT ARCHIVE =====
     document.getElementById('archivePrintBtn')?.addEventListener('click', () => {
-        if (lastArchiveResult.length === 0) {
-            toast("Aucune donnée à imprimer. Faites une recherche d'abord.", 'error');
-            return;
-        }
-        
+        if (lastArchiveResult.length === 0) { toast("Aucune donnée", 'error'); return; }
         const dateStart = document.getElementById('archiveDate').value || 'Toutes';
         const dateEnd = document.getElementById('archiveDateEnd').value || dateStart;
-        
-        let html = `
-        <div id="printContent">
-            <div class="print-title">🥞 LES MIRABELLES - Rapport d'archive</div>
-            <div class="print-subtitle">Période: ${dateStart} ${dateEnd !== dateStart ? '→ ' + dateEnd : ''} | ${new Date().toLocaleDateString('fr-FR')}</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Produit</th>
-                        <th>Section</th>
-                        <th>Catégorie</th>
-                        <th>Qte</th>
-                        <th>Unité</th>
-                        <th>Date</th>
-                        <th>Responsable</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-        
+        let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Rapport</title>
+        <style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Inter',sans-serif;padding:40px;background:#fff;color:#000;}
+        .print-title{font-size:28px;font-weight:800;text-align:center;margin-bottom:8px;}
+        .print-subtitle{text-align:center;font-size:14px;color:#666;margin-bottom:24px;}
+        table{width:100%;border-collapse:collapse;font-size:11px;}
+        th{background:#f0f0f0;border:1px solid #ddd;padding:10px;text-align:center;font-weight:700;text-transform:uppercase;font-size:10px;}
+        td{border:1px solid #ddd;padding:8px;text-align:center;font-size:10px;}
+        tr:nth-child(even){background:#f9f9f9;}
+        .badge-print{padding:3px 10px;border-radius:4px;font-size:9px;font-weight:700;}
+        .entry{background:#d4edda;color:#155724;}.exit{background:#f8d7da;color:#721c24;}.avance{background:#fff3cd;color:#856404;}
+        .print-footer{margin-top:30px;text-align:center;font-size:10px;color:#999;border-top:1px solid #eee;padding-top:16px;}
+        </style></head><body>
+        <div class="print-title">LES MIRABELLES - Rapport</div>
+        <div class="print-subtitle">Période: ${dateStart} ${dateEnd !== dateStart ? '→ ' + dateEnd : ''}</div>
+        <table><thead><tr><th>Type</th><th>Produit</th><th>Section</th><th>Qte</th><th>Date</th><th>Responsable</th><th>Notes</th></tr></thead><tbody>`;
         lastArchiveResult.forEach(r => {
-            const typeLabel = r.type === 'Entrée' ? 'E' : 'S';
-            const typeClass = r.type === 'Entrée' ? 'entry' : 'exit';
-            html += `
-                <tr>
-                    <td><span class="badge-print ${typeClass}">${typeLabel}</span></td>
-                    <td>${r.nom || ''}</td>
-                    <td>${r.section || ''}</td>
-                    <td>${r.categorie || ''}</td>
-                    <td>${r.qte || 0}</td>
-                    <td>${r.unite || ''}</td>
-                    <td>${r.date || ''}</td>
-                    <td>${r.personne || r.responsable || ''}</td>
-                    <td style="font-size:8px;">${r.notes || ''}</td>
-                </tr>
-            `;
+            const typeClass = r.type === 'Entrée' ? 'entry' : r.type === 'Sortie' ? 'exit' : 'avance';
+            html += `<tr><td><span class="badge-print ${typeClass}">${r.type}</span></td><td><strong>${r.nom || ''}</strong></td><td>${r.section || ''}</td><td><strong>${r.qte || 0}</strong></td><td>${r.date || ''}</td><td>${r.personne || r.responsable || ''}</td><td>${r.notes || ''}</td></tr>`;
         });
-        
-        html += `
-                </tbody>
-                <tfoot>
-                    <tr style="font-weight:700;border-top:2px solid #000;">
-                        <td colspan="9" style="text-align:center;font-size:10px;color:#666;padding-top:16px;">
-                            Rapport généré le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}
-                            <br>LES MIRABELLES - Système de gestion d'inventaire
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-        `;
-        
-        const printWindow = window.open('', '_blank', 'width=1200,height=800');
-        printWindow.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head><title>Rapport LES MIRABELLES</title>
-            <style>
-                body { font-family: 'Inter', 'Cairo', sans-serif; padding: 20px; }
-                .print-title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 8px; color: #000; }
-                .print-subtitle { text-align: center; font-size: 14px; margin-bottom: 16px; color: #333; }
-                table { width: 100%; border-collapse: collapse; font-size: 10px; }
-                th { background: #f0f0f0; color: #000; border: 1px solid #ccc; padding: 6px; text-align: center; font-weight: 700; }
-                td { border: 1px solid #ccc; padding: 4px 6px; text-align: center; }
-                .badge-print { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 8px; font-weight: 700; }
-                .badge-print.entry { background: #d4edda; color: #155724; }
-                .badge-print.exit { background: #f8d7da; color: #721c24; }
-                tfoot td { font-weight: 700; border-top: 2px solid #000; }
-                @media print {
-                    body { padding: 0; }
-                    table { font-size: 9px; }
-                    th, td { padding: 3px 4px; }
-                }
-            </style>
-            </head>
-            <body>${html}</body>
-            </html>
-        `);
-        printWindow.document.close();
-        setTimeout(() => { printWindow.print(); }, 500);
-        toast("Document HTML généré pour impression A4");
+        html += `</tbody></table><div class="print-footer">Rapport automatique</div></body></html>`;
+        document.getElementById('codeHtmlContent').value = html;
+        document.getElementById('charCount').textContent = `${html.length} caractères`;
+        openModal('modalCodeHtml');
+    });
+
+    // ===== COPY CODE HTML =====
+    document.getElementById('copyCodeBtn')?.addEventListener('click', () => {
+        const textarea = document.getElementById('codeHtmlContent');
+        textarea.select();
+        textarea.setSelectionRange(0, 99999);
+        try {
+            navigator.clipboard.writeText(textarea.value).then(() => toast("✅ Copié !"));
+        } catch (err) { document.execCommand('copy'); toast("✅ Copié !"); }
+    });
+
+    // ===== PRINT CODE HTML =====
+    document.getElementById('printCodeBtn')?.addEventListener('click', () => {
+        const content = document.getElementById('codeHtmlContent').value;
+        if (content) {
+            const win = window.open('', '_blank', 'width=1200,height=800');
+            win.document.write(content);
+            win.document.close();
+            setTimeout(() => win.print(), 500);
+        } else { toast("Générez d'abord", 'error'); }
     });
 
     // ===== LOAD DATA =====
     function loadAllData() {
-        // Produits
-        onSnapshot(query(produitsRef, orderBy('timestamp', 'desc')), (snapshot) => {
-            const tbody = document.getElementById('tbodyProduits');
-            tbody.innerHTML = '';
-            allProduits = [];
-            const stockMap = calculateStock();
-            
-            snapshot.forEach(doc => {
-                const d = doc.data();
-                allProduits.push({ id: doc.id, ...d });
-                const stock = stockMap[d.nom]?.stockActuel || 0;
-                let statusClass = 'stock-ok';
-                let statusBadge = 'badge-success';
-                if (stock <= 0) { statusClass = 'stock-out'; statusBadge = 'badge-danger'; }
-                else if (stock <= (d.stockMin || 0)) { statusClass = 'stock-low'; statusBadge = 'badge-warning'; }
-                
-                const sectionIcon = d.section === 'CREPES' ? '🥞' : d.section === 'PDJ' ? '🍳' : '🍹';
-                const sectionBadge = d.section === 'CREPES' ? 'badge-crepes' : d.section === 'PDJ' ? 'badge-pdj' : 'badge-bar';
-                
-                const tr = document.createElement('tr');
-                tr.dataset.section = d.section || '';
-                tr.dataset.category = d.categorie || '';
-                tr.innerHTML = `
-                    <td><span class="stock-indicator ${statusClass}"></span>${d.nom || ''}</td>
-                    <td><span class="badge ${sectionBadge}">${sectionIcon} ${d.section || '-'}</span></td>
-                    <td>${d.categorie || '-'}</td>
-                    <td>${d.unite || ''}</td>
-                    <td><strong>${stock}</strong></td>
-                    <td>
-                        <button class="action-btn info" onclick="showDetails('Produit - ${d.nom}', {
-                            'Nom': '${d.nom || ''}',
-                            'Section': '${d.section || ''}',
-                            'Catégorie': '${d.categorie || ''}',
-                            'Unité': '${d.unite || ''}',
-                            'Stock min': '${d.stockMin || 0}',
-                            'Stock actuel': '${stock}'
-                        })"><i class="fas fa-eye"></i></button>
-                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteProduit('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            
-            updateCategoryFilter();
-            filterProducts();
-            updateProduitsSelect();
-            updateAlerts();
-            updateStockSummary();
-        });
-
-        // Entrées
         onSnapshot(query(entreesRef, orderBy('timestamp', 'desc')), (snapshot) => {
             const tbody = document.getElementById('tbodyEntrees');
             tbody.innerHTML = '';
@@ -1981,30 +2018,10 @@
                 allEntrees.push({ id: doc.id, ...d });
                 const total = (d.qte || 0) * (d.prixUnitaire || 0);
                 totalVal += total;
-                const sectionIcon = d.section === 'CREPES' ? '🥞' : d.section === 'PDJ' ? '🍳' : '🍹';
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${d.nom || ''}</td>
-                    <td>${sectionIcon} ${d.section || ''}</td>
-                    <td><strong>${d.qte || 0}</strong> ${d.unite || ''}</td>
-                    <td>${d.date || ''}</td>
-                    <td>
-                        <button class="action-btn info" onclick="showDetails('Entrée - ${d.nom}', {
-                            'Produit': '${d.nom || ''}',
-                            'Section': '${d.section || ''}',
-                            'Catégorie': '${d.categorie || ''}',
-                            'Quantité': '${d.qte || 0}',
-                            'Unité': '${d.unite || ''}',
-                            'Prix unitaire': '${d.prixUnitaire || 0}',
-                            'Total': '${total.toFixed(2)}',
-                            'Fournisseur': '${d.fournisseur || ''}',
-                            'Responsable': '${d.personne || ''}',
-                            'Notes': '${d.notes || ''}',
-                            'Date': '${d.date || ''}'
-                        })"><i class="fas fa-eye"></i></button>
-                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteEntree('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                    </td>
-                `;
+                tr.innerHTML = `<td>${d.nom || ''}</td><td>${d.section || ''}</td><td><strong>${d.qte || 0}</strong></td><td>${d.date || ''}</td>
+                    <td><button class="action-btn info" onclick="showDetails('Entrée', ${JSON.stringify(d).replace(/"/g, '&quot;')})"><i class="fas fa-eye"></i></button>
+                    ${!isViewer ? `<button class="action-btn danger" onclick="deleteEntree('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}</td>`;
                 tbody.appendChild(tr);
             });
             document.getElementById('statEntrees').textContent = snapshot.size;
@@ -2013,7 +2030,6 @@
             updateStockSummary();
         });
 
-        // Sorties
         onSnapshot(query(sortiesRef, orderBy('timestamp', 'desc')), (snapshot) => {
             const tbody = document.getElementById('tbodySorties');
             tbody.innerHTML = '';
@@ -2021,27 +2037,10 @@
             snapshot.forEach(doc => {
                 const d = doc.data();
                 allSorties.push({ id: doc.id, ...d });
-                const sectionIcon = d.section === 'CREPES' ? '🥞' : d.section === 'PDJ' ? '🍳' : '🍹';
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${d.nom || ''}</td>
-                    <td>${sectionIcon} ${d.section || ''}</td>
-                    <td><strong>${d.qte || 0}</strong> ${d.unite || ''}</td>
-                    <td>${d.responsable || ''}</td>
-                    <td>
-                        <button class="action-btn info" onclick="showDetails('Sortie - ${d.nom}', {
-                            'Produit': '${d.nom || ''}',
-                            'Section': '${d.section || ''}',
-                            'Catégorie': '${d.categorie || ''}',
-                            'Quantité': '${d.qte || 0}',
-                            'Unité': '${d.unite || ''}',
-                            'Responsable': '${d.responsable || ''}',
-                            'Notes': '${d.notes || ''}',
-                            'Date': '${d.date || ''}'
-                        })"><i class="fas fa-eye"></i></button>
-                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteSortie('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                    </td>
-                `;
+                tr.innerHTML = `<td>${d.nom || ''}</td><td>${d.section || ''}</td><td><strong>${d.qte || 0}</strong></td><td>${d.responsable || ''}</td>
+                    <td><button class="action-btn info" onclick="showDetails('Sortie', ${JSON.stringify(d).replace(/"/g, '&quot;')})"><i class="fas fa-eye"></i></button>
+                    ${!isViewer ? `<button class="action-btn danger" onclick="deleteSortie('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}</td>`;
                 tbody.appendChild(tr);
             });
             document.getElementById('statSorties').textContent = snapshot.size;
@@ -2049,59 +2048,46 @@
             updateStockSummary();
         });
 
-        // Employés
+        onSnapshot(query(avancesRef, orderBy('timestamp', 'desc')), (snapshot) => {
+            const tbody = document.getElementById('tbodyAvances');
+            tbody.innerHTML = '';
+            allAvances = [];
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                allAvances.push({ id: doc.id, ...d });
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${d.nom || ''}</td><td><strong>${d.qte || 0}</strong></td><td>${d.date || ''}</td><td>${d.personne || ''}</td>
+                    <td><button class="action-btn info" onclick="showDetails('Avance', ${JSON.stringify(d).replace(/"/g, '&quot;')})"><i class="fas fa-eye"></i></button>
+                    ${!isViewer ? `<button class="action-btn danger" onclick="deleteAvance('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}</td>`;
+                tbody.appendChild(tr);
+            });
+            updateAlerts();
+            updateStockSummary();
+        });
+
         onSnapshot(employesRef, (snapshot) => {
             const tbody = document.getElementById('tbodyEmployes');
             tbody.innerHTML = '';
             snapshot.forEach(doc => {
                 const d = doc.data();
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${d.nom || ''}</td>
-                    <td>${d.poste || ''}</td>
-                    <td><span class="badge badge-purple">${d.categorie || 'Sans'}</span></td>
-                    <td>
-                        <button class="action-btn info" onclick="showDetails('Employé - ${d.nom}', {
-                            'Nom': '${d.nom || ''}',
-                            'Prénom': '${d.prenom || ''}',
-                            'CIN': '${d.cin || ''}',
-                            'Téléphone': '${d.tel || ''}',
-                            'WhatsApp': '${d.whatsapp || ''}',
-                            'Poste': '${d.poste || ''}',
-                            'Catégorie': '${d.categorie || ''}',
-                            'Date embauche': '${d.dateEmbauche || ''}',
-                            'Salaire': '${d.salaire || 0}'
-                        })"><i class="fas fa-eye"></i></button>
-                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteEmploye('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                    </td>
-                `;
+                tr.innerHTML = `<td>${d.nom || ''}</td><td>${d.poste || ''}</td><td><span class="badge badge-purple">${d.categorie || 'Sans'}</span></td>
+                    <td><button class="action-btn info" onclick="showDetails('Employé', ${JSON.stringify(d).replace(/"/g, '&quot;')})"><i class="fas fa-eye"></i></button>
+                    ${!isViewer ? `<button class="action-btn danger" onclick="deleteEmploye('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}</td>`;
                 tbody.appendChild(tr);
             });
             document.getElementById('statEmployes').textContent = snapshot.size;
         });
-        
-        // Fournisseurs
+
         onSnapshot(fournisseursRef, (snapshot) => {
             const tbody = document.getElementById('tbodyFournisseurs');
             tbody.innerHTML = '';
             snapshot.forEach(doc => {
                 const d = doc.data();
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${d.nom || ''}</td>
-                    <td>${d.tel || ''}</td>
-                    <td>${d.type || ''}</td>
-                    <td>
-                        <button class="action-btn info" onclick="showDetails('Fournisseur - ${d.nom}', {
-                            'Nom': '${d.nom || ''}',
-                            'Téléphone': '${d.tel || ''}',
-                            'WhatsApp': '${d.whatsapp || ''}',
-                            'Adresse': '${d.adresse || ''}',
-                            'Type de biens': '${d.type || ''}'
-                        })"><i class="fas fa-eye"></i></button>
-                        ${!isViewer ? `<button class="action-btn danger" onclick="deleteFournisseur('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                    </td>
-                `;
+                tr.innerHTML = `<td>${d.nom || ''}</td><td>${d.tel || ''}</td><td>${d.type || ''}</td>
+                    <td><button class="action-btn info" onclick="showDetails('Fournisseur', ${JSON.stringify(d).replace(/"/g, '&quot;')})"><i class="fas fa-eye"></i></button>
+                    ${!isViewer ? `<button class="action-btn danger" onclick="deleteFournisseur('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}</td>`;
                 tbody.appendChild(tr);
             });
             document.getElementById('statFournisseurs').textContent = snapshot.size;
@@ -2117,45 +2103,22 @@
             const d = doc.data();
             allUsers.push({ id: doc.id, ...d });
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${d.username}</td>
-                <td><span class="badge ${d.role === 'Admin' ? 'badge-success' : d.role === 'Viewer' ? 'badge-warning' : 'badge-info'}">${d.role}</span></td>
-                <td>
-                    ${!isViewer && d.username !== 'admin' ? `<button class="action-btn danger" onclick="deleteUser('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
-                    ${!isViewer ? `<button class="action-btn" onclick="editUserRole('${doc.id}')"><i class="fas fa-edit"></i></button>` : ''}
-                </td>
-            `;
+            tr.innerHTML = `<td>${d.username}</td><td><span class="badge ${d.role === 'Admin' ? 'badge-success' : d.role === 'Viewer' ? 'badge-warning' : 'badge-info'}">${d.role}</span></td>
+                <td>${!isViewer && d.username !== 'admin' ? `<button class="action-btn danger" onclick="deleteUser('${doc.id}')"><i class="fas fa-trash"></i></button>` : ''}
+                ${!isViewer ? `<button class="action-btn" onclick="editUserRole('${doc.id}')"><i class="fas fa-edit"></i></button>` : ''}</td>`;
             tbody.appendChild(tr);
         });
     }
 
     // ===== GLOBAL DELETE FUNCTIONS =====
-    window.deleteEntree = async (id) => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "entrees", id)); toast("Supprimée"); }
-    };
-    window.deleteSortie = async (id) => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "sorties", id)); toast("Supprimée"); }
-    };
-    window.deleteProduit = async (id) => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "produits", id)); toast("Supprimé"); }
-    };
-    window.deleteEmploye = async (id) => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "employes", id)); toast("Supprimé"); }
-    };
-    window.deleteFournisseur = async (id) => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "fournisseurs", id)); toast("Supprimé"); }
-    };
-    window.deleteUser = async (id) => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
-        if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "users", id)); toast("Supprimé"); loadUsers(); }
-    };
+    window.deleteEntree = async (id) => { if (isViewer) { toast("Permission refusée", 'error'); return; } if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "entrees", id)); toast("Supprimée"); } };
+    window.deleteSortie = async (id) => { if (isViewer) { toast("Permission refusée", 'error'); return; } if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "sorties", id)); toast("Supprimée"); } };
+    window.deleteAvance = async (id) => { if (isViewer) { toast("Permission refusée", 'error'); return; } if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "avances", id)); toast("Supprimée"); } };
+    window.deleteEmploye = async (id) => { if (isViewer) { toast("Permission refusée", 'error'); return; } if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "employes", id)); toast("Supprimé"); } };
+    window.deleteFournisseur = async (id) => { if (isViewer) { toast("Permission refusée", 'error'); return; } if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "fournisseurs", id)); toast("Supprimé"); } };
+    window.deleteUser = async (id) => { if (isViewer) { toast("Permission refusée", 'error'); return; } if (confirm('Supprimer ?')) { await deleteDoc(doc(db, "users", id)); toast("Supprimé"); loadUsers(); } };
     window.editUserRole = async (id) => {
-        if (isViewer) { toast("Vous n'avez pas la permission", 'error'); return; }
+        if (isViewer) { toast("Permission refusée", 'error'); return; }
         const user = allUsers.find(u => u.id === id);
         if (!user) return;
         const newRole = prompt(`Rôle de ${user.username}:`, user.role);
@@ -2168,35 +2131,15 @@
 
     // ===== INIT =====
     (async () => {
-        await loadUnitsFromFirebase();
-        await loadCategoriesFromFirebase();
+        updateUnitsUI();
+        updateCategoriesUI();
         const snap = await getDocs(query(usersRef, where("username", "==", "admin")));
         if (snap.empty) { await addDoc(usersRef, { username: "admin", password: "181219", role: "Admin" }); }
-        
-        // Check if products exist, if not, initialize with default products
-        const productsSnap = await getDocs(produitsRef);
-        if (productsSnap.empty) {
-            let count = 0;
-            for (const [section, categories] of Object.entries(defaultProducts)) {
-                for (const [categorie, items] of Object.entries(categories)) {
-                    for (const nom of items) {
-                        await addDoc(produitsRef, {
-                            nom,
-                            section,
-                            categorie,
-                            unite: 'Pièce',
-                            stockMin: 2,
-                            timestamp: Date.now()
-                        });
-                        count++;
-                    }
-                }
-            }
-            console.log(`✅ ${count} produits par défaut ajoutés`);
-        }
+        const sectionsSnap = await getDocs(sectionsRef);
+        if (sectionsSnap.empty) { await saveSectionsToFirebase(); } else { await loadSectionsFromFirebase(); }
     })();
 
-    console.log("✅ LES MIRABELLES - Stock Management System");
+    console.log("✅ LES MIRABELLES - Stock Management System (Math fixé + UI épurée)");
 </script>
 </body>
-</html>gy
+</html>
